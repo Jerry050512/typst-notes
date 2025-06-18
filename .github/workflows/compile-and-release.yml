@@ -23,24 +23,30 @@ jobs:
         
     - name: Install Source Han Serif fonts
       run: |
-        # Install Chinese fonts for proper rendering
-        sudo apt-get update
-        sudo apt-get install -y fonts-noto-cjk fonts-noto-cjk-extra
-
         # Create fonts directory
         mkdir -p ~/.local/share/fonts
         
+        # Create separate directories for each font to avoid conflicts
+        mkdir -p font-cn font-tw
+        
         # Download and install Source Han Serif CN (Simplified Chinese)
         echo "Installing Source Han Serif CN..."
+        cd font-cn
         wget -q https://github.com/adobe-fonts/source-han-serif/releases/download/2.003R/14_SourceHanSerifCN.zip
-        unzip -q 14_SourceHanSerifCN.zip
+        unzip -o -q 14_SourceHanSerifCN.zip
         find ./SubsetOTF/CN/ -name "*.otf" -exec cp {} ~/.local/share/fonts/ \;
+        cd ..
         
         # Download and install Source Han Serif TW (Traditional Chinese - Taiwan)
         echo "Installing Source Han Serif TW..."
+        cd font-tw
         wget -q https://github.com/adobe-fonts/source-han-serif/releases/download/2.003R/15_SourceHanSerifTW.zip
-        unzip -q 15_SourceHanSerifTW.zip
+        unzip -o -q 15_SourceHanSerifTW.zip
         find ./SubsetOTF/TW/ -name "*.otf" -exec cp {} ~/.local/share/fonts/ \;
+        cd ..
+        
+        # Clean up downloaded files
+        rm -rf font-cn font-tw
         
         # Update font cache
         fc-cache -f -v
