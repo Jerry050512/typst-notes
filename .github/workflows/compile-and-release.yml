@@ -8,6 +8,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   compile-and-release:
     runs-on: ubuntu-latest
@@ -90,6 +93,8 @@ jobs:
         path: compiled-pdfs/
         
     - name: Create development release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: softprops/action-gh-release@v2
       with:
@@ -103,6 +108,8 @@ jobs:
         prerelease: true
         
     - name: Create stable release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
