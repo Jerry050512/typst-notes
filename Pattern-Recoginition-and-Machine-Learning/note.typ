@@ -149,6 +149,28 @@
   [数据分布假设], [有明确假设], [更加灵活], 
 )
 
+== 最小错误率贝叶斯决策
+
+最小错误率贝叶斯决策的目标是使分类错误的概率最小。具体来说，它要求在所有可能的决策中，选择使错误率最小的决策规则。错误率的定义为：
+$ P(c) = integral P(c | x) p(x) d x $
+其中，$P(c | x)$是在特征$x$下属于类别$c$的后验概率，$p(x)$是特征$x$的先验概率密度函数。通过最小化$P(c)$，可以得到最小错误率贝叶斯决策的最优分类规则。
+
+/ 最小错误率贝叶斯决策: 对于二分类问题 $ "If" P(omega_1 | x) >= P(omega_2 | x), "Then" x in omega_1 $
+
+其中，后验概率用贝叶斯公式求得
+$ P(omega_i | x) = (p(x | x_i)P(omega_i)) / p(x) = (p(x | omega_1) P(omega_2)) / (p(x | omega_1) P(omega_1) + p(x | omega_2) P(omega_2)) $
+
+由于先验概率$P(omega_i)$是确定的, 人们经常把决策规则整理成如下形式: 
+$ "If" I(x) = P(x | omega_1) / P(x | omega_2) >= lambda = P(omega_2) / P(omega_1), "Then" x in cases(omega_1, omega_2) $
+对于每一个样本$x$，计算其似然比$I(x)$，并与阈值$lambda$比较，若$I(x) >= lambda$，则决策为第一类，否则决策为第二类。
+
+概率比$I(x)$反映了在$omega_1$类中观察到特征值$x$的相对可能性，也称为*似然度*，而$I(x)$本身被称为*似然比（likelihood ratio）*
+。
+
+为了简化计算，人们通常使用*对数似然比*$h(x) = - ln [I(x)] = ln P(x | omega_1) + ln P(x | omega_2)$ 。此时，决策规则可以表示为：
+$ 1 / 2 h(x) >= ln P(omega_1) / P(omega_2) $
+若满足该条件，则$x$被决策为第一类，否则为第二类。
+
 == 参数估计 (概率密度函数)
 
 / 参数估计（probability density function estimation）: 目标是根据已知的训练样本，估计出描述这些样本分布的概率密度函数$p(x)$
@@ -159,9 +181,15 @@
 
 1. 最大似然估计（Maximum Likelihood Estimation, MLE）
 
-其基本思想是：在给定参数$theta$的情况下，样本$x_1, x_2, dots, x_N$出现的概率是似然函数$L(theta)$，我们希望找到使$L(theta)$最大的参数$theta$
+其基本思想是：
+
+假设有若干样本，分为不同类别，在同一类内部的若干数据满足同样的概率密度函数。例如，有5+5两类共10个数据，前5个满足正态分布，后5个满足伯努利分布。
+
+基于这种假设，对同一类内部的数据建立联合概率密度函数$L(theta)$。
 
 $ L(theta) = Pi_(i = 1)^N p(x_i | theta) $
+
+在$L(theta)$中只有$theta$是未知量，解方程$(d L(theta))/(d theta)=0$可以得到结果。
 
 正态分布下最大似然参数估计公式为: 
 - 均值: $hat(mu) = 1 / N sum_(i = 1)^N x_i$
@@ -169,11 +197,36 @@ $ L(theta) = Pi_(i = 1)^N p(x_i | theta) $
 
 2. 贝叶斯估计（Bayesian Estimation）
 
-!待确认
+贝叶斯估计与最大似然估计不同，它将参数视为随机变量，并结合先验分布$p(theta)$和似然函数$p(x | theta)$，通过贝叶斯定理估计后验分布 $p(theta | x)$。
 
-贝叶斯估计与最大似然估计不同，它将参数视为随机变量，并结合先验分布$p(theta)$和似然函数$p(x | theta)$，通过贝叶斯定理估计后验分布 $p(theta | x)$。贝叶斯估计的公式为：
+计算步骤如下：
 
-$ p(theta | x) prop p(x | theta) p(theta) $
+(1).根据对问题的认识或猜测确定$p(theta)$
+
+(2).求出样本集的联合分布
+
+$ p(X|theta)=Pi_(i=1)^N p(x_i|theta) $
+
+(3).求出$theta$的后验概率
+
+$ p(theta|X) = (p(X|theta)p(theta))/(integral_Theta p(X|theta)p(theta)d theta) $
+
+(4).根据上式，$theta$估计量：
+
+$ theta^(star) =integral_(Theta) theta p(theta|X)d theta $
+
+考虑到我们的最终目的不是求$theta$，而是做分类，即求样本出现在样本集的概率$p(x|X)$(贝叶斯决策)，可以直接通过以下表达式计算。
+
+$ p(x|X) = integral_Theta p(x|theta)p(theta|X)d theta $
+
+话题回归对参数的讨论。引入样本数量$N$，即样本集$X → X^N$。可以得到
+
+$ p(theta|X^N) = (p(x_N|theta)p(theta|X^(N-1)))/(integral p(x_N|theta)p(theta|X^(N-1))d theta) $
+
+随着$N$的增加，$p(theta|X^N)$会收敛于在参数真实值上的一个脉冲函数，这样的过程称为贝叶斯学习。此外样本概率密度函数也可以类似的逼近真实的密度函数
+$ p(x|X^(N→ infinity)) = p(x) $
+
+综合两种参数估计方法，参数估计都是得到$theta$的值，最终目的可以是计算$p(x|X)$用以分类(贝叶斯决策)。
 
 === 非参数估计（Nonparametric Estimation）
 
@@ -205,27 +258,7 @@ $ p(theta | x) prop p(x | theta) p(theta) $
   [应用场景], [已知分布形式], [未知分布形式]
 )
 
-== 最小错误率贝叶斯决策
 
-最小错误率贝叶斯决策的目标是使分类错误的概率最小。具体来说，它要求在所有可能的决策中，选择使错误率最小的决策规则。错误率的定义为：
-$ P(c) = integral P(c | x) p(x) d x $
-其中，$P(c | x)$是在特征$x$下属于类别$c$的后验概率，$p(x)$是特征$x$的先验概率密度函数。通过最小化$P(c)$，可以得到最小错误率贝叶斯决策的最优分类规则。
-
-/ 最小错误率贝叶斯决策: 对于二分类问题 $ "If" P(omega_1 | x) >= P(omega_2 | x), "Then" x in omega_1 $
-
-其中，后验概率用贝叶斯公式求得
-$ P(omega_i | x) = (p(x | x_i)P(omega_i)) / p(x) = (p(x | omega_1) P(omega_2)) / (p(x | omega_1) P(omega_1) + p(x | omega_2) P(omega_2)) $
-
-由于先验概率$P(omega_i)$是确定的, 人们经常把决策规则整理成如下形式: 
-$ "If" I(x) = P(x | omega_1) / P(x | omega_2) >= lambda = P(omega_2) / P(omega_1), "Then" x in cases(omega_1, omega_2) $
-对于每一个样本$x$，计算其似然比$I(x)$，并与阈值$lambda$比较，若$I(x) >= lambda$，则决策为第一类，否则决策为第二类。
-
-概率比$I(x)$反映了在$omega_1$类中观察到特征值$x$的相对可能性，也称为*似然度*，而$I(x)$本身被称为*似然比（likelihood ratio）*
-。
-
-为了简化计算，人们通常使用*对数似然比*$h(x) = - ln [I(x)] = ln P(x | omega_1) + ln P(x | omega_2)$ 。此时，决策规则可以表示为：
-$ 1 / 2 h(x) >= ln P(omega_1) / P(omega_2) $
-若满足该条件，则$x$被决策为第一类，否则为第二类。
 
 == 分类器
 
