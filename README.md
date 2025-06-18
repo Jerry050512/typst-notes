@@ -11,6 +11,16 @@ typst compile input.typ [output.pdf]
 
 不编译也没关系啦，因为编译的pdf版本会自动发布到Github Release上。
 
+## 🤖 自动化编译与发布
+
+本仓库已配置GitHub Actions工作流，可以自动编译所有Typst文件并发布PDF版本：
+
+- **自动发现**：扫描所有目录中的`note.typ`和`practice.typ`文件
+- **智能命名**：PDF文件按`{目录名}-{文件类型}.pdf`格式命名
+- **自动发布**：推送到main分支时创建开发版本，打tag时创建正式版本
+
+详细信息请查看 [WORKFLOW.md](WORKFLOW.md)。
+
 ### 没有安装`typst`？
 
 使用如下命令安装：

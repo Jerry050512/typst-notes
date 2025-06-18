@@ -1,0 +1,115 @@
+name: Compile and Release Typst Notes
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  compile-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Install Typst
+      uses: typst-community/setup-typst@v3
+      with:
+        typst-version: 'latest'
+        
+    - name: Install Source Han Serif fonts
+      run: |
+        # Create fonts directory
+        mkdir -p ~/.local/share/fonts
+        
+        # Create separate directories for each font to avoid conflicts
+        mkdir -p font-cn font-tw
+        
+        # Download and install Source Han Serif CN (Simplified Chinese)
+        echo "Installing Source Han Serif CN..."
+        cd font-cn
+        wget -q https://github.com/adobe-fonts/source-han-serif/releases/download/2.003R/14_SourceHanSerifCN.zip
+        unzip -o -q 14_SourceHanSerifCN.zip
+        find ./SubsetOTF/CN/ -name "*.otf" -exec cp {} ~/.local/share/fonts/ \;
+        cd ..
+        
+        # Download and install Source Han Serif TW (Traditional Chinese - Taiwan)
+        echo "Installing Source Han Serif TW..."
+        cd font-tw
+        wget -q https://github.com/adobe-fonts/source-han-serif/releases/download/2.003R/15_SourceHanSerifTW.zip
+        unzip -o -q 15_SourceHanSerifTW.zip
+        find ./SubsetOTF/TW/ -name "*.otf" -exec cp {} ~/.local/share/fonts/ \;
+        cd ..
+        
+        # Clean up downloaded files
+        rm -rf font-cn font-tw
+        
+        # Update font cache
+        fc-cache -f -v
+        
+        # List installed fonts for verification
+        echo "Installed Source Han Serif fonts:"
+        fc-list | grep -i "source han serif" || echo "No Source Han Serif fonts found"
+        
+    - name: Find and compile Typst files
+      run: |
+        # Create output directory
+        mkdir -p compiled-pdfs
+        
+        # Find all note.typ and practice.typ files
+        echo "Finding Typst files to compile..."
+        
+        # Compile note.typ files
+        find . -name "note.typ" -type f | while read -r file; do
+          dir=$(dirname "$file")
+          dirname=$(basename "$dir")
+          echo "Compiling $file -> ${dirname}-note.pdf"
+          typst compile --root ../ "$file" "compiled-pdfs/${dirname}-note.pdf"
+        done
+        
+        # Compile practice.typ files
+        find . -name "practice.typ" -type f | while read -r file; do
+          dir=$(dirname "$file")
+          dirname=$(basename "$dir")
+          echo "Compiling $file -> ${dirname}-practice.pdf"
+          typst compile --root ../ "$file" "compiled-pdfs/${dirname}-practice.pdf"
+        done
+        
+        # List compiled files
+        echo "Compiled PDFs:"
+        ls -la compiled-pdfs/
+        
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-pdfs
+        path: compiled-pdfs/
+        
+    - name: Create development release
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: dev-${{ github.sha }}
+        name: Development Release (dev-${{ github.sha }})
+        body: |
+          Automated development release from commit ${{ github.sha }}
+          
+          This release contains compiled PDFs of all Typst notes and practice files.
+        files: compiled-pdfs/*
+        prerelease: true
+        
+    - name: Create stable release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v2
+      with:
+        name: Release ${{ github.ref_name }}
+        body: |
+          Stable release ${{ github.ref_name }}
+          
+          This release contains compiled PDFs of all Typst notes and practice files.
+        files: compiled-pdfs/*
+        prerelease: false
