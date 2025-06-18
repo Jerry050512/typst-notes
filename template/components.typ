@@ -58,3 +58,19 @@
   circle((rel: (315deg, -.3)), radius: .3, name: obj_name)
   set-style(mark: (end: ">", fill: black))
 }
+
+#let emph_box(body, expend: false) = {
+  let w = auto
+  if expend {
+    w = 100%
+  }
+  align(
+    center, 
+      rect(
+        body, 
+        inset: 5pt, 
+        width: w, 
+      ), 
+  )
+
+}
