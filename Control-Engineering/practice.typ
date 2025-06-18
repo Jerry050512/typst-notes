@@ -301,3 +301,17 @@ $ phi(omega) = - pi + arctan (3 omega) / 5 - arctan omega / 2 $
 （2）计算校正前后系统的相角裕度。\
 ]
 
+== 系统稳态误差
+
+#rect(width: 100%, inset: 8pt)[
+  设单位负反馈的开环传递函数为$ G(s) = (K (tau s + 1)) / (s^2 (T s + 1)) $
+  输入$r(t) = t^2$, 试求稳态误差$e_(s s) <= epsilon_0$时, 各参数需满足的条件. 
+]
+
+系统需保持稳定, 则根据闭环特征方程, 利用劳斯判据判定
+$ D(s) = T s^3 + s^2 + K tau s + K = 0 $
+得#align(center, rect[$ tau > T $])
+
+为II型系统, 且为加速度输入 
+$ e_(s s) = 2 / K_a = 2 / K <= epsilon_0 $
+得#align(center, rect[$ K >= 2 / epsilon_0 $])
