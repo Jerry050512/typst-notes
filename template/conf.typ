@@ -5,8 +5,8 @@
 ) = {
   set text(
     font: (
-      (name: "思源宋體 TW", covers: "latin-in-cjk"),
       (name: "Source Han Serif", covers: "latin-in-cjk"),
+      (name: "思源宋體 TW", covers: "latin-in-cjk"),
       "New Computer Modern",
     ),
     lang: "zh",
