@@ -17,7 +17,7 @@
   )
 
   set list(
-    marker: [◾]
+    marker: ("▪", )
   )
 
   set page(
@@ -89,7 +89,15 @@
 
   outline()
 
-  set page(paper: "a4")
+  // pagebreak()
+  set par(
+    justify: true, // for Chinese alignment.
+  )
+
+  show heading.where(level: 1): it => {
+    pagebreak()
+    it
+  }
 
   doc
 }
