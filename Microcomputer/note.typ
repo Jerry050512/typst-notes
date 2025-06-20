@@ -533,11 +533,351 @@ XCHD A, @Ri
 SWAP A
 ```
 
-
-
 == 算数运算类
 
+算术运算指令是通过算术逻辑运算单元 ALU 进行数据运算与处理的指令，主要完成加、减、乘、除四则运算，以及加 1 、减 1 、BCD 码运算和调整等。除加 1 、减 1 运算外，这类指令大多数要影响 `PSW` 中的标志位。 24 条指令可分为 6 组。
+
+=== 不带进位加法指令
+
+#e("ADD")ITION
+
+```asm
+ADD A, #data
+ADD A, direct
+ADD A, @Ri
+ADD A, Rn
+```
+
+将源操作数（Rn、direct、\@Ri或立即数）和目的操作数（在A中）相加后，结果存放到A中。
+
+- 无符号数相加时，如果Cy被置位，说明累加和超过了8位无符号数的最大值（255），此时OV虽受影响但无意义；
+- 带符号数相加时，若溢出标志OV位被置位，说明累加和超出了8位带符号数的范围（-128~+127）。即出现了两个正数相加，和为负数；或两个负数相加，和为正数的错误结果。此时Cy虽受影响但已不需关注。
+
+=== 带进位加法指令
+
+#e("ADD")ITION WITH #e("C")ARRY
+
+```asm
+ADDC A, #data
+ADDC A, direct
+ADDC A, @Ri
+ADDC A, Rn
+```
+
+把源操作数、A和当前Cy的值相加，结果保存到A。主要用于多字节加法中。
+
+=== 带借位减法指令
+
+#e("SUB")TRACT WITH #e("B")ORROW
+
+```asm
+SUBB A, #data
+SUBB A, direct
+SUBB A, @Ri
+SUBB A, Rn
+```
+
+将 A 中的值减去源操作数指定的值，以及借位位 Cy ，结果存放在 A 中。
+
+若 D7 有借位则C置 1 ，否则C清 0 ；若 D3 有借位，则 AC 置 1 ，否则 AC 清 0 。\
+若 D7 和 D6 中有一位有借位而另一位没有，则 OV 置 1 ；表示正数减负数结果为负，或负数减正数结果为正，结果错误。
+
+- 在进行减法运算前，如果不清楚借位标志位Cy的状态，则应先对Cy进行清0。
+
+=== 加1指令
+
+#e("INC")REMENT
+
+```asm
+INC Rn
+INC direct
+INC @Ri
+INC A
+INC DPTR
+```
+
+将指令中的操作数加1。
+
+=== 减1指令
+
+#e("DEC")REMENT
+
+```asm
+DEC A
+DEC direct
+DEC @Ri
+DEC Rn
+```
+
+指令中的操作数减1。若原操作数为`#00H`，则减1后为`#0FFH`。
+
+=== 乘法指令
+
+#e("MUL")TIPLY
+
+```asm
+MUL AB
+```
+
+将A和B中两个无符号8位二进制数相乘，所得的16位积的低8位存于A中，高8位存于B中。\
+如果乘积大于255时，即高位B不为0时，OV置位；否则OV置0。C总是清0。
+
+=== 除法指令
+
+#e("DIV")IDE
+
+```asm
+DIV AB
+```
+
+将A的内容除以B的内容，结果中的商保存于A，余数保存于B，并将C和OV置0。\
+当除数（B）=0时，结果不定，则OV置1。C总是清0。
+
+=== 十进制调整指令
+
+#e("D")ECIMAL #e("A")DJUSTMENT
+
+```asm
+DA A
+```
+
+对两个压缩BCD码（一个字节存放2位BCD码）数相加的结果进行十进制调整
+
+注意：
+- 只能用在ADD和ADDC指令之后，对相加后存放在。
+- 两个压缩BCD码按二进制数相加之后，必须经过此指令的调整才能得到正确的BCD码累加和结果。
+调整的条件和方法：
+- 若（`A0~3`） > 9或（`AC`）＝1，则（`A0~3`）#sym.arrow.l（`A0~3`）+6，即低位加6调整。
+- 若（`A4~7`） > 9或（`Cy`）＝1，则高位加6调整。
+- `DA A` 指令对C的影响是只能置位，不能清0。
+
+== 逻辑操作类
+
+逻辑操作类指令包含逻辑与、逻辑或、逻辑异或、求反、左右移位、清0等。该类指令不影响标志位，仅当其目的操作数为A时，对奇偶标志位P有影响。24条指令可分为5组。
+
+=== 逻辑与
+
+#e("AN")D #e("L")OGIC
+
+```asm
+ANL A,      Rn
+ANL A,      direct
+ANL A,      @Ri
+ANL A,      #data
+ANL direct, A
+ANL direct, #data
+```
+
+将目的操作数和源操作数按“位”相“与”，结果存放到目的操作数单元中。
+
+=== 逻辑或
+
+#e("OR") #e("L")OGIC
+
+```asm
+ORL	A,      Rn
+ORL	A,      direct
+ORL	A,      @Ri
+ORL	A,      #data
+ORL	direct, A
+ORL	direct, #data
+```
+
+将目的操作数和源操作数按“位”相“或”，结果存放到目的操作数单元中。 
+
+=== 逻辑异或
+
+E#e("X")CLUSIVE-O#e("R") #e("L")OGIC
+
+```asm
+XRL A,      Rn
+XRL A,      drect
+XRL A,      @Ri
+XRL A,      #data
+XRL direct, A
+XRL direct, #data
+```
+
+将目的操作数和源操作数按“位”相“异或”，结果存放到目的操作数单元中。
+
+/ 异或: 相异出1
+
+=== 累加器清0和取反指令
+
+#e("CL")EA#e("R") \
+#e("C")OM#e("PL")EMENT
+
+```asm
+CLR A
+CPL A
+```
+
+累加器A的内容清0（字节清0）。字节清0就此一条。\
+对累加器A的内容逐位取反，结果仍存在A中。
+
+=== 循环移位指令
+
+```asm
+RL  A ; 循环左移指令
+; A的内容循环左移一位。(Rotate Left)
+RR  A ; 循环右移指令
+; A的内容循环右移一位。(Rotate Right)
+RLC A ; 带C的循环左移
+; A的内容和C的内容整个左移一位。(Rotate Left through Carry)
+RRC A ; 带C的循环右移
+; A的内容和C的内容整个右移一位。(Rotate Right through Carry)
+```
+
+=== 使用技巧
+
++ 逻辑“与”操作的位屏蔽: 清除的位 and 0
++ 逻辑“或”操作的置位: 保留 or 0; 置1 or 1
++ 逻辑“异或”操作的求反: 保留 xor 0; 取反 xor 1
+
 == 控制转移类
+
+程序的顺序执行是由程序计数器（`PC`）自动增1来实现的，要改变程序的执行顺序，控制程序的流向，必须通过控制转移类指令实现，所控制的范围为程序存储器的64KB空间。8051MCU的控制转移类指令，共17条，可分为4组。
+
+=== 无条件转移指令
+
+```asm
+LJMP addr16  ; 长跳转指令（Long Jump）
+             ; 跳转范围为 64K，PC ← addr16
+             ; 3字节指令
+
+AJMP addr11  ; 绝对跳转指令（Absolute Jump）
+             ; 跳转范围为 2K
+             ; PC = (PC) + 2，PC 的低 11 位 ← addr11
+             ; 2字节指令
+
+SJMP rel     ; 短跳转指令（Short Jump）
+             ; 跳转范围为 -128 ~ +127
+             ; 2字节指令（含偏移）
+
+JMP  @A+DPTR ; 间接跳转指令（Jump Indirect）
+             ; PC ← A + DPTR（A为8位无符号数）
+             ; 1字节指令
+```
+
+原则上，用`SJMP`或`AJMP`的地方都可以用`LJMP`替代。`AJMP`已很少使用。
+
+#grid(
+  columns: (1fr, auto), 
+  align: center+horizon, 
+  inset: 5pt,
+  card(title: [散转指令])[
+  散转指令是一条无条件转移指令，`JMP @A+DPTR`可代替众多
+  的判别跳转指令，具有散转功能。该指令的基址寄存器是DPTR，变
+  址寄存器是A，由于A内容的不同，使程序转移到相对于DPTR偏移
+  量为A内容的地址处，执行分支程序。
+  ],
+  [$ "rel" = "目的地址" - ("转移指令所在地址" + "转移指令字节数") $ rel是一个带符号数的8位二进制补码数，\ 其范围为（-128）-（+127）]
+)
+
+=== 条件转移指令
+
+i. 判零转移指令
+
+```asm
+JZ rel ; Jump if ACC equal Zero
+    ; A=0, 跳。 (PC) ← (PC) + 2 + rel
+    ; A≠0, 不跳，继续向下执行。即(PC) ← (PC) + 2
+
+JNZ rel ; Jump if ACC Not equal Zero
+    ; A≠0, 跳。 (PC) ← (PC) + 2 + rel
+    ; A=0, 不跳，继续向下执行。即(PC) ← (PC) + 2
+```
+
+ii. 数值比较转移指令
+
+#e("C")ompare and #e("J")ump if #e("N")ot #e("E")qual
+
+```asm
+CJNE A,   direct, rel
+CJNE A,   #data,  rel
+CJNE Rn,  #data,  rel
+CJNE @Ri, #data,  rel
+```
+
+对指定的两操作数进行比较，即(操作数1)－(操作数2)，比较结果仅影响标志位C，2个操作数的值不变；
+
+iii. 循环转移指令
+
+#e("D")ecrement and #e("J")ump if #e("N")ot equal #e("Z")ero
+
+```asm
+DJNZ Rn, rel ; Decrement Rn and jump if not zero
+    ; (Rn) ← (Rn) - 1
+    ; If (Rn) ≠ 0, jump, (PC) ← (PC) + 2 + rel
+    ; If (Rn) = 0, do not jump, (PC) ← (PC) + 2
+
+DJNZ direct, rel ; Decrement direct address and jump if not zero
+    ; The content of direct address is used as the basis for judgment
+```
+
+- Rn或direct的内容减1，判别其内容是否为0。
+- 若不为0，跳转到目标地址，继续执行循环程序；
+- 若为0，则结束循环程序段，程序往下执行。
+
+=== 空操作指令
+
+#e("N")O #e("OP")ERATION
+
+没有实际操作，只是花了一个机器周期时间。常用于软件延时. 
+
+=== 子程序调用和返回指令
+
+- 长调用 `LCALL addr16`
+- 绝对调用 `ACALL addr11`
+- 子程序返回 `RET`
+- 中断返回 `RETI`
+
+== 位操作指令
+
+=== 位传送指令
+
+```asm
+MOV C, bit
+MOV bit, C
+```
+
+=== 位状态设置指令
+
+#table(
+  columns: (auto, 1fr, 1fr), 
+  [*功能*], [*助记符*], [*目标*], 
+  table.cell(rowspan: 2)[清零], table.cell(rowspan: 2, `CLR`), `C`, `bit`,
+  table.cell(rowspan: 2)[置1], table.cell(rowspan: 2, `SETB`), `C`, `bit`,
+  table.cell(rowspan: 2)[取反], table.cell(rowspan: 2, `CPL`), `C`, `bit`,
+)
+
+=== 位逻辑运算
+
+#table(
+  columns: (auto, 1fr, 1fr), 
+  [*功能*], [*助记符*], [*目标*], 
+  table.cell(rowspan: 2)[位与], table.cell(rowspan: 2, `ANL`), `C, bit`, `C, /bit`,
+  table.cell(rowspan: 2)[位或], table.cell(rowspan: 2, `ORL`), `C, bit`, `C, /bit`,
+)
+
+=== 位转移指令
+
+```asm
+JC rel ; 如果进位标志C=1，则跳转到标号处执行程序；如果C=0，则不跳，顺序执行
+    ; (Jump if the Carry flag is set)
+
+JNC rel ; 如果进位标志C=0，则跳转；如果C=1，则不跳，顺序执行
+    ; (Jump if Not Carry)
+
+JB bit, rel ; 如果位(bit)=1，则跳转；如果位(bit)=0，则不跳
+    ; (Jump if the Bit is set)
+
+JNB bit, rel ; 如果位(bit)=0，则跳转；如果位(bit)=1，则不跳
+    ; (Jump if the Bit is Not set)
+
+JBC bit, rel ; 如果位(bit)=1，则跳转，并使位(bit)=0；如果位(bit)=0，则不跳
+    ; (Jump if the Bit is set and Clear the bit)
+```
 
 == 伪指令
 
