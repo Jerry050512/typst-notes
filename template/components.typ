@@ -31,6 +31,7 @@
   radius: 4pt, 
   inset: 5pt, 
   width: auto, 
+  alignment: center, 
 ) = {
   box(
     fill: color, 
@@ -38,11 +39,11 @@
     inset: inset, 
     width: width, 
   )[
-    #set align(center)
+    #set align(alignment)
     #set par(justify: true)
     #if title != none {
-      text(title, weight: "bold")
-      linebreak()
+      align(center, text(title, weight: "bold"))
+      // linebreak()
     }
     #body
   ]
