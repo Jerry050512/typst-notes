@@ -5,9 +5,9 @@
 ) = {
   set text(
     font: (
-      (name: "Source Han Serif", covers: "latin-in-cjk"),
-      (name: "思源宋體 TW", covers: "latin-in-cjk"),
       "New Computer Modern",
+      (name: "思源宋體 TW", covers: "latin-in-cjk"),
+      (name: "Source Han Serif", covers: "latin-in-cjk"),
     ),
     lang: "zh",
   )
@@ -98,6 +98,15 @@
     pagebreak()
     it
   }
+
+  set figure(numbering: none)
+
+  show table: it => align(center, it)
+
+  set table(
+    fill: (x, y) => if y == 0 {luma(80%)},
+    align: center+horizon,
+  )
 
   doc
 }
