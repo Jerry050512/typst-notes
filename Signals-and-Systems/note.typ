@@ -58,6 +58,7 @@ $ P = lim_(T -> infinity) 1/(2T) integral_(-T)^T |f(t)|^2 d t $
 
 = 连续时间信号与时域分析
 
+/ 系统的全响应: 
 #{
   set text(
     size: 15pt,
@@ -91,7 +92,16 @@ $ P = lim_(T -> infinity) 1/(2T) integral_(-T)^T |f(t)|^2 d t $
   [冲激偶], $ delta'(t) $, [
     + 奇函数 $ integral^infinity_(-infinity) delta'(t) d t = 0 $
     + 相乘性质 $ f(t) delta'(t) = f(0) delta'(t) - f'(0) delta(t) $
-  ]
+  ], 
+  [斜坡信号], $ r(t) = t dot u(t) = cases(t "if" t >= 0, 0 "if" t < 0) $
+)
+
+*四种奇异信号的关系*
+#grid(
+  columns: (1fr, 1fr), 
+  $ delta'(t) = (d delta(t)) / (d t) $, $ delta(t) = integral_(-infinity)^t delta'(tau) d tau $, 
+  $ delta(t) = (d u(t)) / (d t) $, $ u(t) = integral_(-infinity)^t delta(tau) d tau $, 
+  $ u(t) = (d r(t)) / (d t) $, $ r(t) = integral_(-infinity)^t u(tau) d tau $
 )
 
 == 信号的变换
@@ -104,12 +114,16 @@ $ P = lim_(T -> infinity) 1/(2T) integral_(-T)^T |f(t)|^2 d t $
     [*变换名称*], [*变换公式*], [*说明*],
   ),
   [平移(延时)], $f(t) -> f(t plus.minus t_0)$, [左加右减],
-  [尺度变换], $f(t) -> f(a t)$, [0-1压缩, 1-inf延展, 小于0反折]
+  [尺度变换], $f(t) -> f(a t)$, [0-1压缩,$1-infinity$延展, 小于0反折]
 )
 
 == 零输入响应
 
 / 零输入响应: 系统在没有外部激励($f(t) = 0$)的情况下, 仅由初始条件引起的响应($y_(z i)(t)$).
+
+求解方法：
+- 根据微分方程的特征根确定零输入响应的形式
+- 再由初始条件确定待定系数。
 
 === 求解零输入响应的步骤
 
@@ -132,6 +146,10 @@ $ y^((n))(t) + a_(n - 1)y^((n - 1))(t) + dots.c + a_0 y(t) = b_m f^((m))(t) + b_
 / 冲激响应: 系统对单位冲激信号的响应($h(t)$).
 / 阶跃响应: 系统对单位阶跃信号的响应($g(t)$).
 
+求解系统的零状态响应方法：
+- 直接求解初始状态为零的微分方程。
+- 卷积法: 利用*信号分解*和线性时不变*系统的特性*求解
+
 === 卷积
 
 / 卷积: 信号$f(t)$与$h(t)$的卷积, 定义为:
@@ -149,13 +167,18 @@ note. 利用平移时遇到的分界点来进行分段积分.
 ==== 卷积的性质
 
 - 交换律, 结合律, 分配律
-- 微分与积分 $ f^((i))(t) = f_1^((j))(t) * f_2^((i - j))(t) $ 其中负数导数表示积分
+- 微分与积分 
+$ f^((i))(t) = f_1^((j))(t) * f_2^((i - j))(t) $ 其中负数导数表示积分
+- 位移
+$ f_1(t) * f_2(t) = y(t) => f_1(t - t_1) * f_2(t - t_2) = y(t - t_1 - t_2) $
+- 展缩
+$ f_1(a t) * f_2(a t) = 1 / abs(a) y(a t) $
 - $f(t) * delta(t - t_0) = f(t - t_0)$
 - $f(t) * u(t) = integral^t_(-infinity)f(tau)d tau$
 
 === 求解冲激响应
 
-利用冲激平衡法, 求解下列方程的冲激响应:
+利用*冲激平衡法*, 求解下列方程的冲激响应:
 $ y^((n))(t) + a_(n - 1)y^((n - 1))(t) + dots.c + a_0 y(t) = b_m f^((m))(t) + b_(m - 1) f^((m - 1))(t) + dots.c + b_0 f(t) $
 
 + 代入$y(t) = h(t)$, $f(t) = delta(t)$, 得到一个非齐次线性微分方程 $ y^((n))(t) + a_(n - 1)y^((n - 1))(t) + dots.c + a_0 y(t) = b_m delta^(m)(t) + b_(m - 1) delta^(m - 1)(t) + dots.c + b_0 delta(t) $
@@ -164,3 +187,48 @@ $ y^((n))(t) + a_(n - 1)y^((n - 1))(t) + dots.c + a_0 y(t) = b_m f^((m))(t) + b_
   - 若$n > m$, 则$h(t) = (sum_(i = 1)^n C_i e^(s_i t))u(t)$
   - 若$n <= m$, 则$h(t) = (sum_(i = 1)^n C_i e^(s_i t))u(t) + sum_(i=0)^(m - n) A_i delta^((i))(t)$
 + 代入方程, 利用两侧恒等, 求解常数$C_i$和$A_i$的值
+
+= 连续时间信号的频域分析
+
+/ 函数正交: 它们的内积为0
+$ integral_(t_1)^(t_2) f_1(t) f_2(t) d t = 0 $
+
+== 傅里叶级数
+
+=== 三角形式
+
+$ f(t) &= A_0 + sum_(n = 1)^(infinity) A_n cos(n omega_0 t + phi.alt_n)\ &= a_0 + sum_(n = 1)^infinity (a_n cos n omega_0 t + b_n sin omega_0 t) $
+其中, $A_n = sqrt(a_n^2 + b_n^2)$, $phi.alt_n = arctan(- b_n / a_n)$ \
+$A_0$称为信号的直流分量，$A_1$ 称为基波分量, $A_n$ 称为信号的$n$次谐波分量。
+
+/ 三角傅里叶级数: 周期信号在三角函数完备正交集的展开
+/ 三角函数完备正交集: 
+$ {1, cos n omega_0 t, sin n omega_0 t}_(n = 1, 2, 3, dots, +infinity) $
+
+=== 指数形式
+
+$ f(t) = sum_(n = -infinity)^infinity F_n e^(j n omega_0 t) $
+其中, $ F_n = 1 / T integral^(T / 2)_(- T / 2) f(t) e^(- j n omega_0 t) d t $
+
+=== 两者关系
+
+$ F_0 = a_0 $
+$ F_n = 1 / 2 (a_n - j b_n) = abs(F_n) e^(j phi_n) $
+$ |F_n| = 1 / 2 A_n $
+
+== 周期信号的傅里叶级数分析
+
+/ Dirichlet条件: 周期信号展开为傅立叶级数条件
+  + 绝对可积, 即$integral_(-T/2)^(T/2) abs(f(t)) d t < infinity$
+  + 在一个周期内只有有限个不连续点； 
+  + 在一个周期内只有有限个极大值和极小值。
+
+/ 频谱:$F_n$是频率的函数，它反映了组成信号各正弦谐波的幅度和相位随频率变化的规律，称频谱函数。
+
+
+
+== 非周期信号的傅里叶级数分析
+== 傅里叶变换的性质
+== 周期信号的傅里叶变换
+== 连续时间系统的频域分析
+== 采样定理
