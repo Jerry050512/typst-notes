@@ -136,8 +136,8 @@ $ y^((n))(t) + a_(n - 1)y^((n - 1))(t) + dots.c + a_0 y(t) = b_m f^((m))(t) + b_
 + 求解特征方程 $ s^n + a_(n - 1)s^(n - 1) + dots.c + a_0 = 0 $ 得到特征根$s_1, s_2, dots.c, s_n$
   - 设定特征根为不相等实数根, 则齐次线性微分方程的通解为:$ y(t) = C_1 e^(s_1 t) + C_2 e^(s_2 t) + dots.c + C_n e^(s_n t) $ 其中$C_i$为常数
   - 设定特征根为$k$重相等实数根, 则齐次线性微分方程的通解为:$ y(t) = (C_1 + C_2 t + dots.c + C_k t^(k - 1)) e^(s_1 t) + dots.c $ 其中$C_i$为常数
-  - 设定特征根为若干对共轭复数根, 则齐次线性微分方程的通解为:$ y(t) = e^(sigma_1 t) (C_1 cos(omega_1 t) + D_1 sin(omega_1 t)) + dots.c $ 其中$C_i$为常数
-  - 设定特征根为$k$重共轭复数根, 则齐次线性微分方程的通解为:$ y(t) = e^(sigma_1 t) ((C_(11) + C_(12)t + dots.c + C_(1k)t^(k-1)) cos(omega_1 t) + ((D_(11) + D_(12)t + dots.c + D_(1k)t^(k-1)) sin(omega_1 t)) + dots.c $ 其中$C_i$为常数
+  - 设定特征根为若干对共轭复数根, 则齐次线性微分方程的通解为:$ y(t) = e^(sigma_1 t) [C_1 cos(omega_1 t) + D_1 sin(omega_1 t)] + dots.c $ 其中$C_i$为常数
+  - 设定特征根为$k$重共轭复数根, 则齐次线性微分方程的通解为:$ y(t) = e^(sigma_1 t) {[C_(11) + C_(12)t + dots.c + C_(1k)t^(k-1)] cos(omega_1 t) + [(D_(11) + D_(12)t + dots.c + D_(1k)t^(k-1)) sin(omega_1 t)]} + dots.c $ 其中$C_i$为常数
 + 代入初始条件, 求解常数$C_i$的值
 
 == 零状态响应
@@ -168,7 +168,7 @@ note. 利用平移时遇到的分界点来进行分段积分.
 
 - 交换律, 结合律, 分配律
 - 微分与积分 
-$ f^((i))(t) = f_1^((j))(t) * f_2^((i - j))(t) $ 其中负数导数表示积分
+$ [f_1(t) * f_2(t)]^((i)) = f_1^((j))(t) * f_2^((i - j))(t) $ 其中负数导数表示积分
 - 位移
 $ f_1(t) * f_2(t) = y(t) => f_1(t - t_1) * f_2(t - t_2) = y(t - t_1 - t_2) $
 - 展缩
@@ -390,7 +390,7 @@ $ F(s) = integral_(0^-)^infinity f(t) e^(-s t) d t $
   [线性性质], $ cal(L)[a f(t) + b (t)] = a F(s) + b G(s) $, 
   [相似性质], $ cal(L)[f(a t)] = 1 / a F(s / a), a > 0 $, 
   [微分性质], [$ cal(L)[f'(t)] = s F(s) - f(0) $ $ cal(L)[f^((n))(t)] = s^n F(s) - s^(n - 1) f(0) - s^(n - 2) f'(0) - dots.c - f^((n - 1))(0) $], 
-  [积分性质], $ cal(L) integral_(-infinity)^t f(tau) d tau = F(s) / s + (f^(-1)(0^-)) / s $, 
+  [积分性质], $ cal(L) [integral_(-infinity)^t f(tau) d tau] = F(s) / s + (f^(-1)(0^-)) / s $, 
   [位移性质], $ cal(L) [e^(a t) f(t)] = F(s - a), "Re"[s] > a $, 
   [延迟性质], $ cal(L)[f(t - tau)] = e^(-s tau) F(s) $, 
   [初值定理], [$ f(0) = lim_(s -> infinity) s F(s) $ $f'(t), f(t)$存在, 且有Laplace变换], 
