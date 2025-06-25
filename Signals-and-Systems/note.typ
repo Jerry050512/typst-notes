@@ -458,4 +458,24 @@ $ integral_(-infinity)^infinity |h(tau)| d tau = S < infinity $
 
 / 因果连续LTI系统: BIBO稳定充要条件为$H(s)$全部极点位于左半s平面. 
 
+= 求系统响应
 
+系统的全响应包含零输入响应和零状态响应,即$y(t)=y_x (t)+y_f (t)$
+
+== 零输入相应$y_x (t)$
+
+输入$f(t)=0$,解微分方程
+
+== 零状态响应$y_f (t)$
+
+$ y_f (t) = f(t) * h(t) $
+
+=== 利用傅里叶变换
+
+对微分方程做傅里叶变换,得到$H(j omega) = frac(Y(j omega),X(j omega))$
+
+有$Y_f (j omega) = F(j omega) dot.c H(j omega)$
+
+=== 冲击平衡法
+
+输入$delta(t)$,输出$h(t)$.解微分方程得到$h(t)$.
