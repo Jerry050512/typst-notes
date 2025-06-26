@@ -268,7 +268,7 @@ MCS-51 的数据存储空间由 *内部 RAM* 与 *外部 RAM* 构成:
 复位电路 (支持上电复位与手动复位): 
 
 #figure(
-  image("assets/mannual-reset.png", height: 40%),
+  image("assets/manual-reset.png", height: 40%),
   caption: [手动复位电路]
 )
 
