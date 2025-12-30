@@ -99,7 +99,16 @@
     it
   }
 
-  set figure(numbering: none)
+  show heading.where(level: 1): it => {
+    counter(math.equation).update(0)
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    counter(figure.where(kind: raw)).update(0)
+    it
+  }
+
+  set figure(numbering: num =>
+   (counter(heading.where(level: 1)).get() + (num,)).map(str).join("."))
 
   show table: it => align(center, it)
 
