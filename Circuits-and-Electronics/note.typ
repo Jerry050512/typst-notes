@@ -106,7 +106,7 @@ $ P cases(>0 ", 吸收功率(负载)", <0 ", 提供功率(电源)") $
 
 电压源串电阻可以与电流源并内阻等效. $ U_s = I_s R_0 $ 其中$R_0$是内阻. 
 
-*注意* 等效关系只对外电路而言，对电源内部则是*不等效*的
+*注意* 等效关系只对外电路而言，对电源内部则是*不等效*
 
 = 一阶动态电路的暂态分析
 
@@ -125,7 +125,7 @@ $ i_L(0_+) = i_L(0_-) $
   - 一阶线性动态电路; 
   - 电路中任何电压和电流; 
 
-$ f(t) = f(infinity) + [f(0_+) - f(infinity)] dot e^(t / tau) $
+$ f(t) = f(oo) + [f(0_+) - f(oo)] e^(-t/tau) $
 
 = 正弦稳态电路的分析
 
@@ -203,7 +203,7 @@ $ phi = arctan X / R $
 $ Y = 1 / Z = 1 / (|Z|) angle - phi $
 
 == 功率
-/ 瞬时功率$p(t)$:
+/ 瞬时功率$p(t)$: 
 - $u=sqrt(2)U sin(omega t+ theta)$
 - $i=sqrt(2)I sin(omega t+ theta)$
 - $p(t)=u i=U I cos(theta_u-theta_i)-U I cos(2omega t+theta_u+theta_i)$
@@ -258,8 +258,8 @@ $ Q = rho / R = (omega_0 L) / R = 1 / (omega_0 C R) = 1 / R sqrt(L / C) $
   table(
     columns: 4, 
     [材料], [开启电压], [导通电压], [反向饱和电路], 
-    [硅 Si], [0.5V], [0.5-0.8V], [1#sym.mu\A以下], 
-    [锗 Ge], [0.3V], [0.1-0.3V], [几十#sym.mu\A]
+    [硅 Si], [0.5V], [0.5-0.8V], [1#sym.mu A 以下], 
+    [锗 Ge], [0.3V], [0.1-0.3V], [几十#sym.mu A]
   ), 
   caption: [二极管伏安特性特征参数]
 )
@@ -284,7 +284,7 @@ $ Q = rho / R = (omega_0 L) / R = 1 / (omega_0 C R) = 1 / R sqrt(L / C) $
 
 三极管三个极: 
 - 基极: Base
-- 集电极: Collecter
+- 集电极: Collector
 - 发射极: Emitter
 
 三极管的工作区：
@@ -355,7 +355,7 @@ $ K_"CMR" = abs(A_"ud" / A_"uc") $
 - 共模抑制比$K_"CMR" → infinity$
 - 转换速率$S_R → infinity$
 
-转换速率是运放对于大信号的一个重要指标，单位是V/#sym.mu\s。
+转换速率是运放对于大信号的一个重要指标，单位是V/#sym.mu s。
 
 === 线性区
 
@@ -400,5 +400,3 @@ $ A_"uf" = 1 + R_f / R_1 $
   image("assets/negative-feedback.png", width: 80%), 
   caption: [负反馈的四种组态]
 )
-
-

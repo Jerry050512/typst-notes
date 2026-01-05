@@ -249,7 +249,7 @@ $ f(t) = 1 / (2pi) integral_(-infinity)^infinity F(j omega) e^(j omega t) d omeg
   [单位冲激信号], $ delta(t) $, $ F(j omega) = 1 $, 
   [冲激偶信号], $ delta'(t) $, $ F(j omega) = j omega $, 
   [直流信号], $ 1 $, $ "极限方法求解" \ cal(F)[1] = 2pi delta(omega) $, 
-  [符号函数信号], $ "sgn"(t) = cases(-1 "if" t < 0, 0 "if" t = 0, -1 "if" t > 1) $, $ F(j omega) = 2 / (j omega) $, 
+  [符号函数信号], $ "sgn"(t) = cases(-1 "if" t < 0, 0 "if" t = 0, 1 "if" t > 0) $, $ F(j omega) = 2 / (j omega) $, 
   [单位阶跃信号], $ u(t) = 1 / 2 + 1 / 2 "sgn"(t) $, $ cal(F)[u(t)] = pi delta(omega) + 1 / (j omega) $
 )
 

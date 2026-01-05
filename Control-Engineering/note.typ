@@ -735,9 +735,9 @@ $ |G(s) H(s)| e^(j arg(G(s) H(s))) = e^(j(- pi + 2 k pi)), k = 0, 1, 2 dots $
   [*环节名称*], [*频率特性*], [*幅频相频*], [*对数幅频相频*], [*图像*], 
   [比例环节], $ G(j omega) = K $, $ cases(A(omega) = K, phi(omega) = 0) $, $ cases(L(omega) = 20 lg K, phi(omega) = 0) $, image("assets/c4/rate-part-f.png"), 
   [积分环节], $ G(j omega) = 1 / (j omega) \ = 1 / omega e^(-j pi / 2) $, $ cases(A(omega) = 1 / omega, phi(omega) = - pi / 2) $, $ cases(L(omega) = -20 lg omega, phi(omega) = - pi / 2) $, image("assets/c4/integral-part-f.png"), 
-  [微分环节], $ G(j omega) = j omega \ = omega e^(j pi / 2) $, $ cases(A(omega) = omega, phi(omega) = pi / 2) $, $ cases(L(omega) = 20 lg omega, phi(omega) = pi / 2) $, image("assets/c4/deive-part-f.png"), 
+  [微分环节], $ G(j omega) = j omega \ = omega e^(j pi / 2) $, $ cases(A(omega) = omega, phi(omega) = pi / 2) $, $ cases(L(omega) = 20 lg omega, phi(omega) = pi / 2) $, image("assets/c4/drive-part-f.png"), 
   [惯性环节], $ G(j omega) = 1 / (1 + j omega T) $, table.cell(colspan: 2)[$ cases(A(omega) = 1 / sqrt(1 + omega^2 T^2), phi(omega) = -arctan omega T) $ $ cases(L(omega) = -20 lg sqrt(1 + omega^2 T^2), phi(omega) = - arctan omega T) $], image("assets/c4/inertia-part-f.png"), 
-  [一阶微分], $ G(j omega) = 1 + j omega T $, table.cell(colspan: 2)[$ cases(A(omega) = sqrt(1 + omega^2 T^2), phi(omega) = arctan omega T) $ $ cases(L(omega) = 20 lg sqrt(1 + omega^2 T^2), phi(omega) = arctan omega T) $], image("assets/c4/1grade-deive-f.png")
+  [一阶微分], $ G(j omega) = 1 + j omega T $, table.cell(colspan: 2)[$ cases(A(omega) = sqrt(1 + omega^2 T^2), phi(omega) = arctan omega T) $ $ cases(L(omega) = 20 lg sqrt(1 + omega^2 T^2), phi(omega) = arctan omega T) $], image("assets/c4/1grade-drive-f.png")
 )
 
 == 系统开环频率特性的绘制
