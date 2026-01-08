@@ -17,3 +17,6 @@
 #include "02-feedforward-network.typ"
 #include "03-convolutional-neuro-network.typ"
 #include "04-recurrent-neuro-network.typ"
+#include "05-network-optimization-and-regulation.typ"
+#include "06-memory.typ"
+#include "07-unsupervised-learning.typ"
