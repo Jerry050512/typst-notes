@@ -16,3 +16,4 @@
 #include "01-introduction.typ"
 #include "02-feedforward-network.typ"
 #include "03-convolutional-neuro-network.typ"
+#include "04-recurrent-neuro-network.typ"
