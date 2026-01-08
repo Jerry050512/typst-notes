@@ -20,3 +20,4 @@
 #include "05-network-optimization-and-regulation.typ"
 #include "06-memory.typ"
 #include "07-unsupervised-learning.typ"
+#include "08-model-independent-learning-methods.typ"
