@@ -458,7 +458,7 @@ $ C=W log_2(1+S/N)("bit/s") $
 
 同轴电缆由内导体铜质芯线(单股实心线或多股绞合线)、绝缘层、网状编织的外导体屏蔽层(也可以是单股的)以及绝缘保护套层所组成.
 
-#strike("本来想用代码画图,但是跟Gemini,Typst吉列的豆蒸后选择直接使用课本原图截图")
+#strike("NH5:本来想用代码画图,但是跟Gemini,Typst吉列的豆蒸后选择直接使用课本原图截图")
 
 #figure(
   image("assets/02-coaxial-cable.png"),

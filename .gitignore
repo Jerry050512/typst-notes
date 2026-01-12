@@ -1,3 +1,6 @@
 *.pdf
 
 Reference-Book/
+
+# claude code 配置
+.claude
