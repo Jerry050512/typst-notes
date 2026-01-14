@@ -573,13 +573,313 @@ CRC的核心思路就是:在发送端,先把数据划分为组,假定每组$k$�
 
 ===== 其他内容
 
-在数据链路层若*仅仅*使用循环冗余检验CRC差错检测技术,则只能做到对帧的*无差错接受*.接收端丢弃的帧虽然曾*收到*了,但最终还是因为有差错被丢弃,即没有被*接受*.
+在链路层若*仅仅*使用循环冗余检验CRC差错检测技术,则只能做到对帧的*无差错接受*.接收端丢弃的帧虽然曾*收到*了,但最终还是因为有差错被丢弃,即没有被*接受*.
 
 传输差错可分为两大类:一类就是前面所说的最基本的比特差错,而另一类传输差错则更复杂些,这就是收到的帧并没有出现比特差错,但却出现了*帧丢失*、*帧重复*或*帧失序*.
 
 “无比特差错”与“无传输差错”并不是同样的概念.
-== 使用广播信道的数据链路层
+
+== 以太网
+
+理论上以太网和局域网是两回事,但是随着市场和技术的发展,以太网已成为了局域网的同义词.
+
+局域网有多种结构:星形网,环形网,总线网.
+
+以太网共享信道,这在技术上有两种方法:
+  - 静态划分信道:前文提过的各种复用.不适合局域网
+  - 动态媒体控制:又称多点接入,信道并非是用户通信时固定分配给用户,又分一下两类:
+    - 随机接入:所有用户可随机发信息,但如果多个用户同时发,会发生碰撞,所有发送都失败,需要有协议处理碰撞
+    - 受控接入:用户不能随机发送信息而服从一定的控制,典型代表是分散控制的令牌环局域网,集中控制的多点探路探询/轮询
+
+受控接入用的少,不讨论.
+
+计算机与外界局域网的连接是通过*适配器(adapter)*。适配器本来是在主机箱内插入的一块网络接口板(或者是在笔记本电脑中插入一块PCMCIA卡------个人计算机存储器卡接口适配器).
+
+这种接口板又称为*网络接口卡NIC(Network Interface Card)*或简称为“*网卡*”.
+由于现在计算机主板上都已经嵌入了这种适配器,一般不再使用单独的网卡了,因此本书使用适配器这个更准确的术语.在这种通信适配器上面装有处理器和存储器(包括RAM和ROM).
+
+适配器和局域网之间的通信是通过电缆或双绞线以串行传输方式进行的,而适配器和计算机之间的通信则是通过计算机主板上的I/O总线以并行传输方式进行的.
+
+计算机的硬件地址就在适配器的ROM中,而计算机的软件地址——IP地址,则在计算机的存储器中.
+
+=== CSMA/CD协议
+
+最早的以太网是将许多计算机都连接到一根总线上.
+
+为了通信的简便,以太网采取了以下两种措施:
+  - 采用较为灵活的无连接的工作方式,即不必先建立连接就可以直接发送数据.适配器对发送的数据帧不进行编号,也不要求对方发回确认.以太网提供的服务是尽最大努力的交付,即不可靠的交付.对有差错帧是否需要重传则由高层来决定.在同一时间只能允许一台计算机发送数据.使用的协议是*CSMA/CD*,意思是*载波监听多点接入/碰撞检测(Carrier Sense Multiple Access with Collision Detection)*.
+  - 以太网发送的数据都使用*曼彻斯特(Manchester)*编码的信号.
+
+CSMA/CD协议有三个要点:
+  - 多点接入:说明这是总线型网络.协议的实质是"载波监听"和"碰撞检测".
+  - 载波监听:不管在想要发送数据之前,还是在发送数据之中,每个站都必须不停地检测信道.发送前检测信道,是为了避免冲突,如果有人发了信息,本站先不发;发送中检测信道,是为了及时发现如果有其他站也在发送,就立即中断本站的发送.这就称为碰撞检测.
+  - 碰撞检测:适配器边发送数据边检测信道上的信号电压的变化情况.当两个或几个站同时在总线上发送数据时,总线上的信号电压变化幅度将会增大(互相叠加).当适配器检测到的信号电压变化幅度超过一定的门限值时,就认为总线上至少有两个站同时在发送数据,表明产生了碰撞.所谓"碰撞"就是发生了冲突.因此"碰撞检测"也称为"冲突检测".
+
+电磁波在$1k m$电缆的传播时延约为$5 mu s$.(课本说这个数字应当记住)
+
+常把总线上的单程端到端传播时延记为$tau$.那么对于一个发送端来说,发送一个消息后最快要*2倍的总线端到端的传播时延($2tau$)*,或总线的*端到端往返传播时延*的时间才能得知是否发生碰撞.
+
+由于局域网上任意两个站之间的传播时延有长有短,因此局域网必须按最坏情况设计,即取总线两端的两个站之间的传播时延(这两个站之间的距离最大)为端到端传播时延.
+
+以太网的端到端往返时间$2tau$称为*争用期(contention period)*.争用期又称为*碰撞窗口(collision
+window)*.经过争用期这段时间还没有检测到碰撞,才能肯定这次发送不会发生碰撞.
+
+但是有一种情况,发送的帧很小,当发送完成时没有检测到碰撞,但是这个帧却发生了碰撞(发送前中监听而发送后不监听).这样目的站就会收到并丢弃这个有差错的帧,发送站却不知道需要重发帧.为了避免发生这种情况,以太网规定了一个最短帧长64字节,即512比特。如果要发送的数据非常少,那么必须加入一些填充字节,使帧长不小于64字节.一般直接认为512比特时间就是争用期,10Mbps下$51.2mu s$.
+
+由于一检测到冲突就立即中止发送,这时已经发送出去的数据一定小于64字节,因此凡长度小于64 字节的帧都是由于冲突而异常中止的无效帧.
+
+以太网使用*截断二进制指数退避(truncated binary exponential backoff)*算法来确定碰撞后重传的时机.这种算法让发生碰撞的站在停止发送数据后,不是等待信道变为空闲后就立即再发送数据,而是退避一个*随机*的时间.
+
+退避算法有如下具体的规定:
+  - 基本退避时间为争用期$2tau$,是512比特时间.为了方便,也可以直接使用比特作为争用期的单位.争用期是512比特,即争用期是发送512比特所需的时间.
+  - 从离散的整数集合$[0,1,...,(2^k-1)]$中随机取出一个数,记为$r$.重传应推后的时间为$r$倍争用期.参数$k = M i n["重传次数",10]$.
+  - 当重传达16次仍不能成功时(这表明同时打算发送数据的站太多,以致连续发生冲突),则丢弃该帧,并向高层报告.
+
+传统以太网是总线网,后来发展为星形网.星形网有一个集线器连接各个主机.集线器工作在物理层.由于集线器使用电子器件来模拟实际电缆线的工作,因此整个系统仍像一个传统以太网那样运行.集线器不进行碰撞检测.
+
+#strike[NH5:还有一些信道利用率的内容,我嫌累,觉得不会考,这里先不写了()]
+
+=== MAC
+
+==== MAC地址
+
+局域网中需要一个地址来标识设备.IEEE 802标准规定使用一个6字节(48位)或2字节(16位)地址字段作为MAC地址(硬件地址,物理地址).现在用的都是6字节.
+
+MAC地址有一些规定,前24位是*组织唯一标识符OUI(Organizationally Unique Identifier)*.
+低24位称为*扩展标识符(extended identifier)*.
+
+// 定义颜色
+#let color-green = rgb("#d9ead3")
+#let color-blue = rgb("#c9daf8")
+#let color-red = rgb("#f4cccc")
+#let text-green = rgb("#38761d")
+#let text-blue = rgb("#1155cc")
+#let text-red = rgb("#cc0000")
+
+// 定义二进制字符串
+#let bin-flags = "00"
+#let bin-mfg = "0111111111111101000011"
+#let bin-mac = "110101000110110001101000"
+
+// 定义尺寸单位，用于计算宽度
+#let u = 0.6em // 每个bit的宽度单位
+#let h = 2em    // 矩形高度
+
+#figure(
+  canvas({
+    import draw: *
+
+    // --- 绘制矩形块 ---
+  // 1. Flags (2 bits)
+  rect((0, 0), (2*u, h), fill: color-green, name: "box-flags")
+  content("box-flags.center", bin-flags)
+
+  // 2. Manufacturer ID (22 bits)
+  // 起点接在上一个块的终点
+  rect((2*u, 0), ((2+22)*u, h), fill: color-blue, name: "box-mfg")
+  content("box-mfg.center", bin-mfg)
+
+  // 3. Machine ID (24 bits)
+  rect(((2+22)*u, 0), ((2+22+24)*u, h), fill: color-red, name: "box-mac")
+  content("box-mac.center", bin-mac)
+
+  // --- 绘制下方标签和箭头 ---
+  let label-y = -2em // 标签的垂直位置
+
+  // Label 1: Flags
+  content((1*u, label-y), text(fill: text-green)[2 bits of\ flags], name: "lbl-flags")
+  line("lbl-flags.north", (1*u, 0), stroke: text-green)
+
+  // Label 2: Mfg ID (中心点在 2 + 11 = 13u 处)
+  content((13*u, label-y), text(fill: text-blue)[22-bit\ 制造商ID], name: "lbl-mfg")
+  line("lbl-mfg.north", (13*u, 0), stroke: text-blue)
+
+  // Label 3: Machine ID (中心点在 2 + 22 + 12 = 36u 处)
+  content((36*u, label-y), text(fill: text-red)[24-bit\ 机器ID], name: "lbl-mac")
+  line("lbl-mac.north", (36*u, 0), stroke: text-red)
+  }),
+  caption: [MAC 地址结构]
+)
+
+IEEE 规定地址字段的第一字节的最低有效位为I/G位.I/G 表示 Individual/Group.当I/G位为0时,地址字段表示一个单个站地址.当I/G位为1时表示组地址,用来进行多播.
+
+// 定义颜色
+#let color-green = rgb("#d9ead3")
+#let color-blue = rgb("#c9daf8")
+#let color-red = rgb("#f4cccc")
+#let text-gray = rgb("#aaaaaa")
+
+// 定义二进制字符串（后两部分纯灰色）
+#let bin-mfg-gray = text(fill: text-gray)[0111111111111101000011]
+#let bin-mac-gray = text(fill: text-gray)[110101000110110001101000]
+
+// 定义特殊显示的 Flags 文本："1"加粗黑色，"0"灰色
+#let bin-flags-special = [#text(weight: "bold")[1]#text(fill: text-gray)[0]]
+
+// 定义尺寸单位
+#let u = 0.6em
+#let h = 2em
+
+#figure(
+  canvas({
+    import draw: *
+
+    // --- 绘制矩形块 (结构同图1，但内容改变) ---
+    // 1. Flags (Special content)
+    rect((0, 0), (2*u, h), fill: color-green, name: "box-flags")
+    content("box-flags.center", bin-flags-special)
+
+    // 为了让箭头精确指向第一个bit '1'，直接使用坐标
+    let bit-1-center = (0.5*u, h/2)
+
+    // 2. Manufacturer ID (Gray content)
+    rect((2*u, 0), ((2+22)*u, h), fill: color-blue, name: "box-mfg")
+    content("box-mfg.center", bin-mfg-gray)
+
+    // 3. Machine ID (Gray content)
+    rect(((2+22)*u, 0), ((2+22+24)*u, h), fill: color-red, name: "box-mac")
+    content("box-mac.center", bin-mac-gray)
+
+    // --- 绘制左侧标签和箭头 ---
+
+    // 在左侧放置文本标签，稍微向左偏移并居中对齐
+    content((-1em, h/2), anchor: "east",align(left)[If this bit is 1, it's\ a group address.], name: "lbl-group")
+
+    // 绘制箭头：从标签右侧指向我们之前定义的第一个bit的中心点
+    // 使用这种弯曲的路径定义可以让箭头末端水平进入目标
+    line("lbl-group.east", (rel: (0.5em, 0)), bit-1-center, stroke: gray)
+  }),
+  caption: "I/G位标识"
+)
+
+一个主机会接收以下三种帧:
+  - 单播(unicast)帧(一对一),即收到的帧的MAC地址与本站的MAC地址相同
+  - 广播(broadcast)帧(一对全体),即发送给本局域网上所有站点的帧(全1地址)
+  - 多播(multicast)帧(一对多),即发送给本局域网上一部分站点的帧
 
 
+==== MAC帧
+
+payload是来自网络层的包.
+
+链路层增加了首部:目标地址,源地址,类型.尾部:FCS.
+
+紫色部分是物理层添加的首尾.
+#figure(
+  canvas({
+    import draw: *
+    scale(80%)
+    // --- 颜色定义 (近似原图) ---
+    let c-purple-light = rgb("#dad2e9") // 前导码背景
+    let c-blue-light = rgb("#cfe2f3")   // MAC地址背景
+    let c-red-light = rgb("#f4cccc")    // 类型背景
+    let c-grey-light = rgb("#efefef")   // 载荷背景
+    let c-green-light = rgb("#d9ead3")  // FCS背景
+    
+    let t-purple = rgb("#a61ce0")       // 紫色文字/箭头
+    let t-red = rgb("#c03508")          // 红色文字/箭头
+    let t-blue = rgb("#0b5394")         // 蓝色文字/箭头
+    let t-green = rgb("#38761d")        // 绿色文字/箭头
+
+    // --- 布局参数 ---
+    let h = 2 // 方块高度
+    let y-base = 0 // 基准线
+
+    // 定义各个字段的数据: (显示名称, 宽度, 颜色, 内部标识名)
+    let fields = (
+      (name: "前同步码 (7)", w: 3.5, col: c-purple-light, id: "pre"),
+      (name: "帧开始界定符(1)",     w: 3.5, col: c-purple-light, id: "sfd"),
+      (name: "目的\nMAC (6)", w: 3, col: c-blue-light, id: "dst"),
+      (name: "源\nMAC (6)",      w: 3, col: c-blue-light, id: "src"),
+      (name: "类型\n(2)",    w: 1.5, col: c-red-light,    id: "typ"),
+      (name: "Payload\n(46~1500)",      w: 3.5, col: c-grey-light,   id: "pay"),
+      (name: "FCS (4)",      w: 2.0, col: c-green-light,  id: "fcs")
+    )
+
+    // --- 绘制方块 ---
+    let x = 0
+    for f in fields {
+      // 绘制矩形
+      rect((x, 0), (x + f.w, h), fill: f.col, stroke: gray, name: f.id)
+      // 绘制文字
+      content((x + f.w / 2, h / 2), text(size: 9pt)[#f.name])
+      // 更新 x 坐标
+      x = x + f.w
+    }
+
+
+    // --- 绘制底部标注 ---
+
+    // 1. Destination (Blue)
+    line((rel: (0, -1), to: "dst.south"), "dst.south", stroke: (paint: t-blue, thickness: 1.5pt), mark: (end: ">", fill: t-blue))
+    content((rel: (0, -0.2), to: (rel: (0, -1), to: "dst.south")), text(fill: t-blue, size: 11pt)[Destination], anchor: "north")
+
+    // 2. Source (Blue)
+    line((rel: (0, -1), to: "src.south"), "src.south", stroke: (paint: t-blue, thickness: 1.5pt), mark: (end: ">", fill: t-blue))
+    content((rel: (0, -0.2), to: (rel: (0, -1), to: "src.south")), text(fill: t-blue, size: 11pt)[Source], anchor: "north")
+
+    // 3. Checksum (Green)
+    line((rel: (0, -1), to: "fcs.south"), "fcs.south", stroke: (paint: t-green, thickness: 1.5pt), mark: (end: ">", fill: t-green))
+    content((rel: (0, -0.2), to: (rel: (0, -1), to: "fcs.south")), text(fill: t-green, size: 11pt)[Checksum], anchor: "north")
+
+  })
+)
+
+类型是标志网络层用什么协议.
+
+FCS检验的范围是从目的地址到FCS的这5个部分的MAC帧.
 
 == 扩展的以太网
+
+拓展的以太网在网络层看来仍然是一个网络
+
+=== 物理层扩展
+
+每一个以太网是一个*碰撞域(collsion domian,又称冲突域)*.多个碰撞域可以合并成一个更大的碰撞域.
+合并可以依靠的有集线器光纤等硬件设备.
+
+=== 链路层扩展
+
+链路层的扩展最初用网桥,随着市场发展,现在用交换机,后面都介绍交换机,网桥不做介绍.
+交换机没有准确的定义和明确的概念.
+交换机工作在链路层.
+
+==== 特点
+
+交换机有很多端口,这里端口是设备上硬件意义存在的接口,均与主机或别的交换机相连,一般工作在全双工方式.
+还有并行性,即多对主机可以同时交流.
+*每个端口及连接到端口的主机构成一个碰撞域.*交换机的端口还有存储器,端口繁忙时可以把帧缓存.
+总线以太网采用CSMA/CD协议,交换机不用这种协议.仍然称为以太网的原因是它*仍使用以太网的帧结构*.
+
+==== 自学习功能
+
+交换机是一个即插即用设备,内部有一个帧交换表(又称地址表).
+
+交换表用于把目标MAC地址和端口建立联系.交换表是一个*内容可寻址存储器CAM(Content Addressable Memory)*.交换表基于自学习算法建立.
+
+下面介绍自学习功能.
+
+交换机接收到一个帧,它需要把这个帧正确转发到目的设备,会做两件事:
+  - 查找交换表,如果没有源地址的记录,那么建立一个源地址和对应端口的联系的记录
+  - 查找交换表:
+    - 如果已经有目标地址的记录,则从对应端口转发帧
+    - 如果没有记录,则以广播方式向除源端口外其他端口发送数据
+
+考虑到连接可能会变化,所以会对每条交换表记录设置一个有效期,超出有效期删除这条信息.
+交换机广播会让目的设备收到且接收帧,非目的设备收到但丢弃帧,这一过程也称为*过滤*.
+
+某些情况下,可能让帧在某个环路时无限制兜圈,所以IEEE的802.1D标准制定了一个*生成树协议STP(Spanning Tree Protocol)*.要点是不改变网络的实际拓扑,但在逻辑上切断某些链路,使得从一台主机到所有其他主机的路径是*无环路的树状结构*.
+
+=== 虚拟以太网
+
+#strike[NH5:这部分我没看明白,课本写的感觉意义不明]
+
+在IEEE 802.1Q标准中,对*虚拟局域网VLAN(Virtual LAN)*的定义:
+
+VLAN是由一些局域网网段构成的与物理位置无关的逻辑组,这些网段基于某种需求.每一个VLAN的帧都有一个明确的标识符,指明这个帧来自哪个VLAN.
+
+*VLAN只是LAN给用户提供的一种服务,并不是一种新型局域网.*
+
+IEEE 802.3ac标准规定VLAN标签放在MAC帧的源地址和类型之间,长度4字节.带有VLAN tag的帧称为802.1Q帧.
+
+假设有俩交换机,主机和交换机之间连接是接入链路(access link),两个交换机之间是汇聚链路(trunk link)或干线链路.
