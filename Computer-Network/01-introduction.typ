@@ -179,3 +179,65 @@
 
 $ "总时延" = "发送时延" + "传播时延" + "处理时延" + "排队时延" $
 
+== 网络的体系结构
+#figure(
+  table(
+    inset: 10pt,
+    column-gutter: 10pt,
+    columns: (1fr, 1fr,1fr),
+    table.header(
+      [OSI的体系结构],[TCP/IP的体系结构],[五层协议的体系结构]
+    ),
+    
+    [
+      #stack(
+        block(
+          inset: 5pt,
+          stack(
+            spacing: 5pt,
+            rect(width: 120pt, height: 25pt, fill: rgb("#f0f8ff"))[7.应用层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#e6f7ff"))[6.表示层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#d9f1ff"))[5.会话层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#ccede5"))[4.运输层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#c2e1de"))[3.网络层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#b5d5d6"))[2.数据链路层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#a8c9c3"))[1.物理层]
+          )
+        )
+      )
+    ],
+    [
+      #stack(
+        block(
+          inset: 5pt,
+          stack(
+            spacing: 5pt,
+            rect(width: 120pt, height: 50pt, fill: rgb("#fff3e0"))[4.应用层(DNS,HTTP,SMTP等)],
+            rect(width: 120pt, height: 50pt, fill: rgb("#ffeeba"))[3.运输层(TCP或UDP)],
+            rect(width: 120pt, height: 50pt, fill: rgb("#ffd89b"))[2.网际层IP],
+            rect(width: 120pt, height: 50pt, fill: rgb("#ffcb7d"))[1.链路层(网络接口层,无具体内容)]
+          )
+        )
+      )
+    ],
+    [
+      #stack(
+        block(
+          inset: 5pt,
+          stack(
+            spacing: 5pt,
+            rect(width: 120pt, height: 25pt, fill: rgb("#e8f5e9"))[5.应用层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#d4edda"))[4.运输层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#c3e6e5"))[3.网络层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#b2dfe8"))[2.数据链路层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#a1d4eb"))[1.物理层]
+          )
+        )
+      )
+    ],
+    table.footer(
+      [(a) OSI的七层协议],[(b) TCP/IP的四层协议],[(c) 原理型五层协议]
+    )
+  ),
+  caption: "计算机网络体系结构"
+)
