@@ -91,7 +91,7 @@ BPTT 在处理长序列时, 由于梯度在时间轴上的连乘效应 (特别�
 
 === 长短期记忆网络 (LSTM)
 
-长短期记忆网络 (Long Short-Term Memory, LSTM) 是解决 RNN 梯度消失问题的核心方案. 它通过引入*细胞状态 (Cell State) *和*门控机制 (Gating Mechanisms) *, 实现了信息的长期保存. LSTM 的精妙之处在于 $c_t = f_t dot C_(t-1) + i_t dot tilde(c)_t$. 这种*线性加法*结构使得误差在反向传播时, 即使经过很多个时间步, 只要遗忘门开启, 梯度就不会像传统 RNN 那样因为连乘而迅速消失. 
+长短期记忆网络 (Long Short-Term Memory, LSTM) 是解决 RNN 梯度消失问题的核心方案. 它通过引入*细胞状态 (Cell State) *和*门控机制 (Gating Mechanisms) *, 实现了信息的长期保存. LSTM 的精妙之处在于 $c_t = f_t dot c_(t-1) + i_t dot tilde(c)_t$. 这种*线性加法*结构使得误差在反向传播时, 即使经过很多个时间步, 只要遗忘门开启, 梯度就不会像传统 RNN 那样因为连乘而迅速消失. 
 
 在每个时刻 $t$, LSTM 的计算逻辑由以下公式构成: 
 
@@ -102,7 +102,7 @@ BPTT 在处理长序列时, 由于梯度在时间轴上的连乘效应 (特别�
 
 2. *更新细胞状态*: 
   - 候选状态: $tilde(c)_t = tanh(W_c x_t + U_c h_(t-1) + b_c)$
-  - 当前状态: $c_t = f_t dot C_(t-1) + i_t dot tilde(c)_t$  (*关键: 加法运算避免了梯度消失*) 
+  - 当前状态: $c_t = f_t dot c_(t-1) + i_t dot tilde(c)_t$  (*关键: 加法运算避免了梯度消失*) 
 
 3. *计算隐藏输出*: 
   - $h_t = o_t dot tanh(c_t)$
