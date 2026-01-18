@@ -18,3 +18,4 @@
 #include "03-links.typ"
 #include "04-internet.typ"
 #include "05-transport.typ"
+#include "06-applications.typ"
