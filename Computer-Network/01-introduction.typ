@@ -229,7 +229,7 @@ $ "总时延" = "发送时延" + "传播时延" + "处理时延" + "排队时延
             rect(width: 120pt, height: 25pt, fill: rgb("#e8f5e9"))[5.应用层],
             rect(width: 120pt, height: 25pt, fill: rgb("#d4edda"))[4.运输层],
             rect(width: 120pt, height: 25pt, fill: rgb("#c3e6e5"))[3.网络层],
-            rect(width: 120pt, height: 25pt, fill: rgb("#b2dfe8"))[2.数据链路层],
+            rect(width: 120pt, height: 25pt, fill: rgb("#b2dfe8"))[2.链路层],
             rect(width: 120pt, height: 25pt, fill: rgb("#a1d4eb"))[1.物理层]
           )
         )
