@@ -7,6 +7,7 @@
 - **Circuits-and-Electronics** - 电路与电子学
 - **Control-Engineering** - 控制工程
 - **Microcomputer** - 微机原理
+- **Neuro-Network-and-Deep-Learning** - 神经网络与深度学习
 - **Pattern-Recoginition-and-Machine-Learning** - 模式识别与机器学习
 - **Signals-and-Systems** - 信号与系统
 

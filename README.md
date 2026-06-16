@@ -9,7 +9,7 @@
 
 ## 📥 下载说明
 
-前往 [Releases](../../releases) 页面下载编译好的PDF：
+前往 [Releases]((https://github.com/Jerry050512/typst-notes/releases)) 页面下载编译好的PDF：
 - **活跃笔记**：单独的PDF文件，按需下载
 - **归档笔记**：打包在 `archived-notes.zip` 中
 
