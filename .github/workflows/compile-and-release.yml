@@ -60,37 +60,76 @@ jobs:
         
     - name: Find and compile Typst files
       run: |
-        # Create output directory
-        mkdir -p compiled-pdfs
-        
+        # Create output directories
+        mkdir -p compiled-pdfs/active
+        mkdir -p compiled-pdfs/archived
+
         # Find all note.typ and practice.typ files
         echo "Finding Typst files to compile..."
-        
-        # Compile note.typ files
-        find . -name "note.typ" -type f | while read -r file; do
+
+        # Compile active note.typ files (exclude archive directory)
+        echo "=== Compiling active notes ==="
+        find . -name "note.typ" -type f -not -path "./archive/*" | while read -r file; do
           dir=$(dirname "$file")
           dirname=$(basename "$dir")
           echo "Compiling $file -> ${dirname}-note.pdf"
-          typst compile --root ../ "$file" "compiled-pdfs/${dirname}-note.pdf"
+          typst compile --root ../ "$file" "compiled-pdfs/active/${dirname}-note.pdf"
         done
-        
-        # Compile practice.typ files
-        find . -name "practice.typ" -type f | while read -r file; do
+
+        # Compile active practice.typ files (exclude archive directory)
+        find . -name "practice.typ" -type f -not -path "./archive/*" | while read -r file; do
           dir=$(dirname "$file")
           dirname=$(basename "$dir")
           echo "Compiling $file -> ${dirname}-practice.pdf"
-          typst compile --root ../ "$file" "compiled-pdfs/${dirname}-practice.pdf"
+          typst compile --root ../ "$file" "compiled-pdfs/active/${dirname}-practice.pdf"
         done
-        
+
+        # Compile archived note.typ files
+        echo "=== Compiling archived notes ==="
+        find ./archive -name "note.typ" -type f | while read -r file; do
+          dir=$(dirname "$file")
+          dirname=$(basename "$dir")
+          echo "Compiling $file -> ${dirname}-note.pdf"
+          typst compile --root ../ "$file" "compiled-pdfs/archived/${dirname}-note.pdf"
+        done
+
+        # Compile archived practice.typ files
+        find ./archive -name "practice.typ" -type f | while read -r file; do
+          dir=$(dirname "$file")
+          dirname=$(basename "$dir")
+          echo "Compiling $file -> ${dirname}-practice.pdf"
+          typst compile --root ../ "$file" "compiled-pdfs/archived/${dirname}-practice.pdf"
+        done
+
+        # Create archive zip
+        if [ -d "compiled-pdfs/archived" ] && [ "$(ls -A compiled-pdfs/archived)" ]; then
+          echo "=== Creating archived notes package ==="
+          cd compiled-pdfs/archived
+          zip -r ../archived-notes.zip *.pdf
+          cd ../..
+          echo "Archived notes packaged into archived-notes.zip"
+        fi
+
         # List compiled files
-        echo "Compiled PDFs:"
-        ls -la compiled-pdfs/
+        echo "=== Active PDFs ==="
+        ls -la compiled-pdfs/active/
+        echo "=== Archived PDFs ==="
+        ls -la compiled-pdfs/archived/
+        echo "=== Archive Package ==="
+        ls -lh compiled-pdfs/*.zip 2>/dev/null || echo "No archive package created"
         
-    - name: Upload artifacts
+    - name: Upload active PDFs artifact
       uses: actions/upload-artifact@v4
       with:
-        name: compiled-pdfs
-        path: compiled-pdfs/
+        name: active-pdfs
+        path: compiled-pdfs/active/
+
+    - name: Upload archived notes package artifact
+      uses: actions/upload-artifact@v4
+      if: hashFiles('compiled-pdfs/archived-notes.zip') != ''
+      with:
+        name: archived-notes
+        path: compiled-pdfs/archived-notes.zip
         
     - name: Create development release
       env:
@@ -102,9 +141,15 @@ jobs:
         name: Development Release (dev-${{ github.sha }})
         body: |
           Automated development release from commit ${{ github.sha }}
-          
-          This release contains compiled PDFs of all Typst notes and practice files.
-        files: compiled-pdfs/*
+
+          ## 📚 Active Notes (Individual PDFs)
+          Recently updated course notes - download individually as needed.
+
+          ## 📦 Archived Notes (archived-notes.zip)
+          Older course notes packaged together in a single zip file.
+        files: |
+          compiled-pdfs/active/*
+          compiled-pdfs/archived-notes.zip
         prerelease: true
         
     - name: Create stable release
@@ -116,7 +161,13 @@ jobs:
         name: Release ${{ github.ref_name }}
         body: |
           Stable release ${{ github.ref_name }}
-          
-          This release contains compiled PDFs of all Typst notes and practice files.
-        files: compiled-pdfs/*
+
+          ## 📚 Active Notes (Individual PDFs)
+          Recently updated course notes - download individually as needed.
+
+          ## 📦 Archived Notes (archived-notes.zip)
+          Older course notes packaged together in a single zip file.
+        files: |
+          compiled-pdfs/active/*
+          compiled-pdfs/archived-notes.zip
         prerelease: false

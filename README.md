@@ -2,6 +2,17 @@
 
 本仓库包含一部分课程笔记，笔记内容使用Typst书写，pdf版本会发布在Github Release中。
 
+## 📂 仓库结构
+
+- **活跃笔记**：根目录下的课程为最近正在更新的笔记
+- **归档笔记**：`archive/` 目录存放已完成或暂停更新的旧笔记
+
+## 📥 下载说明
+
+前往 [Releases]((https://github.com/Jerry050512/typst-notes/releases)) 页面下载编译好的PDF：
+- **活跃笔记**：单独的PDF文件，按需下载
+- **归档笔记**：打包在 `archived-notes.zip` 中
+
 ## Get Started
 
 使用`typst`编译文件，编译命令如下：
