@@ -59,10 +59,6 @@
 #figure(
   table(
     columns: (auto, 1.5fr, 3fr),
-    inset: 10pt,
-    align: horizon,
-    fill: (x, y) => if y == 0 { gray.lighten(50%) },
-    stroke: 0.5pt + gray,
     
     [*阶段*], [*核心特征*], [*关键事件与成果*],
     

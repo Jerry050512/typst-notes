@@ -1,3 +1,5 @@
+#import "preamble.typ": *
+
 #let conf(
   title: none,
   authors: (),
@@ -10,6 +12,7 @@
       (name: "Source Han Serif", covers: "latin-in-cjk"),
     ),
     lang: "zh",
+    size: 12pt,
   )
 
   set heading(
@@ -65,27 +68,11 @@
     align(center)[
       Update: #datetime.today().display()
     ]
+
+    line(length: 60%, stroke: (paint: titlecolor, thickness: 1.2pt))
   }
 
-
-
   set align(left)
-  // set par(
-  //   first-line-indent: (
-  //     amount: 2em,
-  //     all: true,
-  //   ),
-  //   hanging-indent: 0.5em,
-  // )
-  // set enum(
-  //   indent: 0.5em,
-  // )
-  // set list(
-  //   indent: 0.5em,
-  // )
-  // set terms(
-  //   indent: 0.5em,
-  // )
 
   outline()
 
@@ -95,16 +82,29 @@
   )
 
   show heading.where(level: 1): it => {
-    pagebreak()
-    it
-  }
-
-  show heading.where(level: 1): it => {
     counter(math.equation).update(0)
     counter(figure.where(kind: image)).update(0)
     counter(figure.where(kind: table)).update(0)
     counter(figure.where(kind: raw)).update(0)
+    pagebreak(weak: true)
+    v(0.6em)
     it
+    v(0.4em)
+  }
+
+  show heading.where(level: 2): it => {
+    v(0.5em)
+    stack(
+      spacing: 3pt,
+      text(fill: titlecolor, weight: "bold", size: 14pt, "▌ " + it.body.fields().at("text", default: "")),
+      line(length: 100%, stroke: (paint: titlecolor, thickness: 0.5pt))
+    )
+    v(0.2em)
+  }
+  show heading.where(level: 3): it => {
+    v(0.3em)
+    text(fill: titlecolor, weight: "bold", size: 12pt, "◆ " + it.body.fields().at("text", default: ""))
+    v(0.1em)
   }
 
   set figure(numbering: num =>
@@ -113,8 +113,10 @@
   show table: it => align(center, it)
 
   set table(
-    fill: (x, y) => if y == 0 {luma(80%)},
-    align: center+horizon,
+    inset: 10pt,
+    align: horizon,
+    fill: (x, y) => if y == 0 { gray.lighten(50%) },
+    stroke: 0.5pt + gray,
   )
 
   doc
