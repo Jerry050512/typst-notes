@@ -5,6 +5,7 @@
 ## 归档课程列表
 
 - **Circuits-and-Electronics** - 电路与电子学
+- **Computer-Network** - 计算机网络
 - **Control-Engineering** - 控制工程
 - **Microcomputer** - 微机原理
 - **Neuro-Network-and-Deep-Learning** - 神经网络与深度学习

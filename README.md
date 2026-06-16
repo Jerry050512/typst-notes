@@ -7,9 +7,25 @@
 - **活跃笔记**：根目录下的课程为最近正在更新的笔记
 - **归档笔记**：`archive/` 目录存放已完成或暂停更新的旧笔记
 
+### 如何归档笔记
+
+当某个课程笔记不再频繁更新时，可以将其移入归档：
+
+```bash
+# 使用 git mv 移动（保留完整的提交历史）
+git mv Course-Name archive/
+
+# 更新 archive/README.md 添加课程说明
+# 提交更改
+git add archive/README.md
+git commit -m "chore: move Course-Name to archive"
+```
+
+**注意**：`archive/template` 是指向 `../template` 的符号链接，归档笔记仍可正常编译。
+
 ## 📥 下载说明
 
-前往 [Releases]((https://github.com/Jerry050512/typst-notes/releases)) 页面下载编译好的PDF：
+前往 [Releases](https://github.com/Jerry050512/typst-notes/releases) 页面下载编译好的PDF：
 - **活跃笔记**：单独的PDF文件，按需下载
 - **归档笔记**：打包在 `archived-notes.zip` 中
 
