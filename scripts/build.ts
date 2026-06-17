@@ -1,4 +1,5 @@
 import path from "path";
+import { existsSync } from "fs";
 import { spawnSync } from "child_process";
 import { listCourses, sortCourses } from "./lib/courses";
 import {
@@ -17,7 +18,20 @@ const ROOT = process.cwd();
 const DIST_DIR = path.join(ROOT, "dist");
 const ARCHIVE_DIR = path.join(ROOT, "archive");
 
-const SHIROA_BIN = process.env.SHIROA_BIN ?? path.join(ROOT, "tools", "shiroa", "shiroa.exe");
+function findShiroaInPath(): string | undefined {
+  const exeName = process.platform === "win32" ? "shiroa.exe" : "shiroa";
+  const paths = (process.env.PATH ?? process.env.Path ?? "").split(path.delimiter);
+  for (const p of paths) {
+    const candidate = path.join(p, exeName);
+    if (existsSync(candidate)) return candidate;
+  }
+  return undefined;
+}
+
+const SHIROA_BIN =
+  process.env.SHIROA_BIN ??
+  findShiroaInPath() ??
+  path.join(ROOT, "tools", "shiroa", process.platform === "win32" ? "shiroa.exe" : "shiroa");
 
 function normalizePathToRoot(p: string): string {
   let s = p;
