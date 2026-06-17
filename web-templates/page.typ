@@ -15,6 +15,12 @@
 :root {
   --sl-font: "Source Han Serif SC", "Source Han Serif CN", "Noto Serif SC", "Songti SC", "SimSun", serif;
 }
+
+.site-title {
+  font-size: 1.2rem;    /* 字号稍微放大 */
+  font-weight: 600;     /* 半粗体，加粗但不是 700 那么重 */
+  font-style: italic;   /* 斜体 */
+}
 ```
 
 #let project(title: "", description: "", body) = if is-html {
