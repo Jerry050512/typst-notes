@@ -1,6 +1,5 @@
 #import "../template/components.typ": card
 
-= 绪论
 
 == 人工智能基础
 

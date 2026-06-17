@@ -1,0 +1,97 @@
+ INFO  Accepting connections at http://localhost:3000
+ HTTP  6/17/2026 12:00:09 PM ::1 GET /intro.html
+ HTTP  6/17/2026 12:00:09 PM ::1 Returned 301 in 18 ms
+ HTTP  6/17/2026 12:00:09 PM ::1 GET /intro
+ HTTP  6/17/2026 12:00:09 PM ::1 Returned 200 in 8 ms
+ HTTP  6/17/2026 12:00:09 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:00:09 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:00:09 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:00:09 PM ::1 Returned 200 in 9 ms
+ HTTP  6/17/2026 12:00:09 PM ::1 Returned 200 in 16 ms
+ HTTP  6/17/2026 12:00:09 PM ::1 Returned 200 in 18 ms
+ HTTP  6/17/2026 12:00:09 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:00:09 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:00:13 PM ::1 GET /web-notes/Circuits-and-Electronics-note.html
+ HTTP  6/17/2026 12:00:13 PM ::1 Returned 301 in 1 ms
+ HTTP  6/17/2026 12:00:13 PM ::1 GET /web-notes/Circuits-and-Electronics-note
+ HTTP  6/17/2026 12:00:13 PM ::1 Returned 200 in 30 ms
+ HTTP  6/17/2026 12:00:13 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:00:13 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:00:13 PM ::1 Returned 304 in 2 ms
+ HTTP  6/17/2026 12:00:13 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:00:13 PM ::1 Returned 304 in 3 ms
+ HTTP  6/17/2026 12:00:13 PM ::1 Returned 304 in 1 ms
+ HTTP  6/17/2026 12:00:13 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:00:13 PM ::1 Returned 304 in 2 ms
+ HTTP  6/17/2026 12:04:07 PM ::1 GET /intro.html
+ HTTP  6/17/2026 12:04:07 PM ::1 Returned 301 in 2 ms
+ HTTP  6/17/2026 12:04:07 PM ::1 GET /intro
+ HTTP  6/17/2026 12:04:07 PM ::1 Returned 200 in 6 ms
+ HTTP  6/17/2026 12:04:07 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:04:07 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:04:07 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:04:07 PM ::1 Returned 200 in 4 ms
+ HTTP  6/17/2026 12:04:07 PM ::1 Returned 200 in 5 ms
+ HTTP  6/17/2026 12:04:07 PM ::1 Returned 200 in 5 ms
+ HTTP  6/17/2026 12:04:07 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:04:07 PM ::1 Returned 200 in 4 ms
+ HTTP  6/17/2026 12:04:11 PM ::1 GET /web-notes/Circuits-and-Electronics-note.html
+ HTTP  6/17/2026 12:04:11 PM ::1 Returned 301 in 1 ms
+ HTTP  6/17/2026 12:04:11 PM ::1 GET /web-notes/Circuits-and-Electronics-note
+ HTTP  6/17/2026 12:04:11 PM ::1 Returned 200 in 18 ms
+ HTTP  6/17/2026 12:04:11 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:04:11 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:04:11 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:04:11 PM ::1 Returned 304 in 2 ms
+ HTTP  6/17/2026 12:04:11 PM ::1 Returned 304 in 1 ms
+ HTTP  6/17/2026 12:04:11 PM ::1 Returned 304 in 2 ms
+ HTTP  6/17/2026 12:04:11 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:04:11 PM ::1 Returned 304 in 3 ms
+ HTTP  6/17/2026 12:05:34 PM ::1 GET /intro.html
+ HTTP  6/17/2026 12:05:34 PM ::1 Returned 301 in 0 ms
+ HTTP  6/17/2026 12:05:34 PM ::1 GET /intro
+ HTTP  6/17/2026 12:05:34 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:05:34 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:05:34 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:05:34 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:05:34 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:05:34 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:05:34 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:05:34 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:05:34 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:10:54 PM ::1 GET /intro.html
+ HTTP  6/17/2026 12:10:54 PM ::1 Returned 301 in 1 ms
+ HTTP  6/17/2026 12:10:54 PM ::1 GET /intro
+ HTTP  6/17/2026 12:10:54 PM ::1 Returned 200 in 3 ms
+ HTTP  6/17/2026 12:10:54 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:10:54 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:10:54 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:10:54 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:10:54 PM ::1 Returned 200 in 3 ms
+ HTTP  6/17/2026 12:10:54 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:10:54 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:10:54 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:14:30 PM ::1 GET /intro.html
+ HTTP  6/17/2026 12:14:30 PM ::1 Returned 301 in 2 ms
+ HTTP  6/17/2026 12:14:30 PM ::1 GET /intro
+ HTTP  6/17/2026 12:14:30 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:14:30 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:14:30 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:14:30 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:14:30 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:14:30 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:14:30 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:14:31 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:14:31 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:20:03 PM ::1 GET /intro.html
+ HTTP  6/17/2026 12:20:03 PM ::1 Returned 301 in 1 ms
+ HTTP  6/17/2026 12:20:03 PM ::1 GET /intro
+ HTTP  6/17/2026 12:20:03 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:20:03 PM ::1 GET /internal/elasticlunr.min.js
+ HTTP  6/17/2026 12:20:03 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:20:03 PM ::1 GET /internal/mark.min.js
+ HTTP  6/17/2026 12:20:03 PM ::1 GET /internal/searcher.js
+ HTTP  6/17/2026 12:20:03 PM ::1 Returned 200 in 1 ms
+ HTTP  6/17/2026 12:20:03 PM ::1 Returned 200 in 2 ms
+ HTTP  6/17/2026 12:20:03 PM ::1 GET /searchindex.json
+ HTTP  6/17/2026 12:20:03 PM ::1 Returned 200 in 1 ms

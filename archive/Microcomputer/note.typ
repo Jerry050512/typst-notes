@@ -8,19 +8,6 @@
 #show: codly-init
 #codly(languages: codly-languages)
 
-#show: conf.with(
-  title: [
-    微机原理
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #set figure(numbering: none)
 
 #show table: it => align(center, it)

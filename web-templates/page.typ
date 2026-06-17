@@ -1,5 +1,5 @@
 #import "@preview/shiroa:0.3.1": *
-#import templates: equation-rules, theme-box, theme-box-styles-from
+#import templates: markup-rules, equation-rules, theme-box, theme-box-styles-from
 
 #let is-html = is-html-target(exclude-wrapper: true)
 
@@ -49,9 +49,10 @@ figcaption {
 
 /* 行内公式大小跟随正文字号 */
 .inline-equation svg {
-  height: 0.8em;
+  height: auto;
+  max-height: 1.5em;
   width: auto;
-  vertical-align: middle;
+  vertical-align: -0.25em;
 }
 
 /* block 公式间距与大小 */
@@ -62,13 +63,22 @@ figcaption {
 
 .block-equation svg {
   max-width: 100%;
-  height: 3em;
+  height: auto;
+  max-height: 15em;
   width: auto;
+}
+
+/* 表格中的公式大小适配 */
+.typst-grid-cell .inline-equation svg {
+  max-height: 1.1em;
 }
 ```
 
 #let project(title: "", description: "", body) = if is-html {
   import "@preview/shiroa-starlight:0.3.1": starlight
+
+  // Apply markup rules (headings, lists, etc.) for web.
+  show: markup-rules.with(themes: themes)
 
   // Render inline/block equations as SVG via shiroa's own rules.
   show: equation-rules.with(theme-box: themed-box)
@@ -78,6 +88,7 @@ figcaption {
     body,
     title: title,
     description: description,
+    enable-search: true,
     extra-assets: (extra-css,),
   )
 } else {

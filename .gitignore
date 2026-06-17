@@ -4,3 +4,9 @@ Reference-Book/
 
 # claude code 配置
 .claude
+
+node_modules/
+tools/
+dist/
+web-notes/
+*.tar.gz

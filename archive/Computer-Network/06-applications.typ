@@ -1,7 +1,6 @@
 #import "../template/components.typ": card
 #import "@preview/cetz:0.3.4": canvas, draw
 
-= 应用层
 
 == 引言:应用层的重要性
 

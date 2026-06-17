@@ -1,19 +1,6 @@
 #import "../template/conf.typ": conf
 #import "../template/components.typ": *
 
-#show: conf.with(
-  title: [
-    深度学习与神经网络 习题
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #set figure(
   numbering: none
 )

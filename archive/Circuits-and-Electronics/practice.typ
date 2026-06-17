@@ -6,19 +6,6 @@
 #show: codly-init
 #codly(languages: codly-languages)
 
-#show: conf.with(
-  title: [
-    电路与电子学 习题
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #set image(height: 20%)
 
 = 直流电路

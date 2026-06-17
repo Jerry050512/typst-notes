@@ -2,19 +2,6 @@
 #import "../template/components.typ": *
 #import "@preview/cetz:0.3.4"
 
-#show: conf.with(
-  title: [
-    控制工程 习题
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #set figure(
   numbering: none
 )

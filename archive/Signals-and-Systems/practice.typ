@@ -3,19 +3,6 @@
 
 #import "@preview/cetz:0.4.0"
 
-#show: conf.with(
-  title: [
-    信号与系统 习题
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #set image(
   height: 15%
 )

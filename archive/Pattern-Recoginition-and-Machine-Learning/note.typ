@@ -1,19 +1,6 @@
 #import "../template/conf.typ": conf
 #import "../template/components.typ": *
 
-#show: conf.with(
-  title: [
-    模式识别与机器学习
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #show "!待确认": align(
   center, 
   rect(

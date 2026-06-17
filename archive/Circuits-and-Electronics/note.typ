@@ -6,19 +6,6 @@
 #show: codly-init
 #codly(languages: codly-languages)
 
-#show: conf.with(
-  title: [
-    电路与电子学
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 = 直流电路
 
 == 基本概念

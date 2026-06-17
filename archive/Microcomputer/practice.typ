@@ -6,19 +6,6 @@
 #show: codly-init
 #codly(languages: codly-languages)
 
-#show: conf.with(
-  title: [
-    微机控制原理 习题
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 #set figure(
   numbering: none
 )

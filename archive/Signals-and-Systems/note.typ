@@ -1,19 +1,6 @@
 #import "../template/conf.typ": conf
 #import "../template/components.typ": *
 
-#show: conf.with(
-  title: [
-    信号与系统
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 = 信号与系统的概念与分类
 
 == 信号的分类

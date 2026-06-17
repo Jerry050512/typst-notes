@@ -2,19 +2,6 @@
 #import "../template/components.typ": *
 #import "@preview/cetz:0.3.4"
 
-#show: conf.with(
-  title: [
-    控制工程
-  ],
-  authors: (
-    (
-      name: [Gang.],
-      affiliation: [Hangzhou Dianzi University],
-      email: "jerry050512@outlook.com",
-    ),
-  )
-)
-
 = 线性系统的数学描述
 
 p.s. 线性时不变系统即为线性定常系统, 线性时变系统即为线性非定常系统.
