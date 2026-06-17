@@ -35,7 +35,7 @@ jobs:
         run: |
           mkdir -p tools/shiroa
           curl -L -o /tmp/shiroa.tar.gz https://github.com/Myriad-Dreamin/shiroa/releases/download/v0.3.1-rc4/shiroa-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf /tmp/shiroa.tar.gz -C tools/shiroa
+          tar -xzf /tmp/shiroa.tar.gz -C tools/shiroa --strip-components=1
           chmod +x tools/shiroa/shiroa
           echo "$PWD/tools/shiroa" >> $GITHUB_PATH
 
