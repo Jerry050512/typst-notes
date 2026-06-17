@@ -49,7 +49,7 @@ figcaption {
 
 /* 行内公式：按 SVG 自然高度渲染，上限跟随正文字号，避免强制压缩 */
 .inline-equation svg {
-  height: auto;
+  height: 0.8em;
   max-height: 1.1em;
   width: auto;
   vertical-align: middle;
@@ -82,6 +82,8 @@ th .inline-equation svg {
 }
 ```
 
+#let search-js = raw(lang: "js", read("/web-templates/search.js"))
+
 #let project(title: "", description: "", body) = if is-html {
   import "@preview/shiroa-starlight:0.3.1": starlight
 
@@ -100,7 +102,7 @@ th .inline-equation svg {
     title: title,
     description: description,
     enable-search: true,
-    extra-assets: (extra-css,),
+    extra-assets: (extra-css, search-js),
   )
 } else {
   body

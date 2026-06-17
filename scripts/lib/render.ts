@@ -53,16 +53,18 @@ function wrapperName(course: Course, ch: Chapter, kind: "note" | "practice"): st
 
 function removeFirstHeading(filePath: string): void {
   if (!existsSync(filePath)) return;
-  const content = readFileSync(filePath, "utf-8");
+  const raw = readFileSync(filePath, "utf-8");
+  const bom = raw.startsWith("\uFEFF") ? "\uFEFF" : "";
+  const content = raw.slice(bom.length);
   const match = content.match(/^= +.+$/m);
   if (!match || match.index === undefined) return;
 
-  const offset = match.index;
+  const offset = bom.length + match.index;
   let end = offset + match[0].length;
-  if (content.charAt(end) === "\r") end++;
-  if (content.charAt(end) === "\n") end++;
-  const removed = content.slice(offset, end);
-  const newContent = content.slice(0, offset) + content.slice(end);
+  if (raw.charAt(end) === "\r") end++;
+  if (raw.charAt(end) === "\n") end++;
+  const removed = raw.slice(offset, end);
+  const newContent = raw.slice(0, offset) + raw.slice(end);
 
   writeFileSync(filePath, newContent);
   modifications.push({ file: filePath, offset, removed });
@@ -71,7 +73,9 @@ function removeFirstHeading(filePath: string): void {
 
 function removeConfFromFile(filePath: string): void {
   if (!existsSync(filePath)) return;
-  const content = readFileSync(filePath, "utf-8");
+  const raw = readFileSync(filePath, "utf-8");
+  const bom = raw.startsWith("\uFEFF") ? "\uFEFF" : "";
+  const content = raw.slice(bom.length);
   const startMatch = content.match(/#show:\s*conf\.with\(/);
   if (!startMatch || startMatch.index === undefined) return;
 
@@ -88,9 +92,10 @@ function removeConfFromFile(filePath: string): void {
   // 跳过尾部空白和换行
   while (end < content.length && /[\s\r\n]/.test(content[end])) end++;
 
-  const offset = startMatch.index;
-  const removed = content.slice(offset, end);
-  const newContent = content.slice(0, offset) + content.slice(end);
+  const offset = bom.length + startMatch.index;
+  const rawEnd = bom.length + end;
+  const removed = raw.slice(offset, rawEnd);
+  const newContent = raw.slice(0, offset) + raw.slice(rawEnd);
 
   writeFileSync(filePath, newContent);
   modifications.push({ file: filePath, offset, removed });

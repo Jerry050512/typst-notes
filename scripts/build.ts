@@ -10,6 +10,7 @@ import {
   restoreModifications,
 } from "./lib/render";
 import { ensureSourceHanFonts, getFontPaths } from "./lib/fonts";
+import { generateSearchIndex } from "./lib/search";
 import { emptyDir } from "./lib/utils";
 
 const ROOT = process.cwd();
@@ -71,6 +72,9 @@ function runBuild() {
     console.error(`[build] shiroa exited with code ${result.status}`);
     throw new Error(`shiroa exited with code ${result.status}`);
   }
+
+  console.log("[build] generating search index...");
+  generateSearchIndex(DIST_DIR);
 
   console.log(`[build] done. output: ${DIST_DIR}`);
 }
