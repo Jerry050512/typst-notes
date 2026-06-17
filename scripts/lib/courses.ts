@@ -17,6 +17,16 @@ function parseIncludes(filePath: string): string[] | null {
   return includes.length > 0 ? includes : null;
 }
 
+function extractCourseTitle(filePath: string): string | null {
+  if (!existsSync(filePath)) return null;
+  const content = readFileSync(filePath, "utf-8").replace(/^\uFEFF/, "");
+  const bracket = content.match(/#show:\s*conf\.with\s*\([\s\S]*?title:\s*\[\s*([\s\S]*?)\s*\]/);
+  if (bracket) return bracket[1].replace(/\n/g, " ").trim();
+  const quoted = content.match(/#show:\s*conf\.with\s*\([\s\S]*?title:\s*"([^"]+)"/);
+  if (quoted) return quoted[1].trim();
+  return null;
+}
+
 function makeChapterFromFile(courseDir: string, relPath: string, fromInclude: boolean): Chapter | null {
   const fp = path.resolve(courseDir, relPath);
   if (!existsSync(fp)) return null;
@@ -60,7 +70,7 @@ function collectChapters(courseDir: string, kind: "note" | "practice", courseTit
 export function scanCourse(dir: string): Course | null {
   const name = path.basename(dir);
   if (name.startsWith(".") || name === "template") return null;
-  const title = COURSE_TITLES[name] ?? name;
+  const title = extractCourseTitle(path.join(dir, "note.typ")) ?? COURSE_TITLES[name] ?? name;
 
   const noteChapters = collectChapters(dir, "note", title);
   const practiceChapters = collectChapters(dir, "practice", title);

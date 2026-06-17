@@ -21,6 +21,50 @@
   font-weight: 600;     /* 半粗体，加粗但不是 700 那么重 */
   font-style: italic;   /* 斜体 */
 }
+
+/* 正文基础字号与行高 */
+.sl-markdown-content p,
+.sl-markdown-content li,
+.sl-markdown-content dt,
+.sl-markdown-content dd {
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+/* 正文段落首行缩进与段间距 */
+.sl-markdown-content p {
+  text-indent: 2em;
+  margin-bottom: 0.8em;
+}
+
+/* card、列表项、block 公式、figure 内部段落不缩进 */
+.typst-card p,
+li > p,
+.block-equation,
+figure > p,
+figcaption {
+  text-indent: 0 !important;
+  margin-bottom: 0;
+}
+
+/* 行内公式大小跟随正文字号 */
+.inline-equation svg {
+  height: 0.8em;
+  width: auto;
+  vertical-align: middle;
+}
+
+/* block 公式间距与大小 */
+.block-equation {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.block-equation svg {
+  max-width: 100%;
+  height: 3em;
+  width: auto;
+}
 ```
 
 #let project(title: "", description: "", body) = if is-html {

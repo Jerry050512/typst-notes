@@ -13,6 +13,7 @@ export type Course = {
   practiceChapters: Chapter[];
 };
 
+// [Deprecated]: Will be removed in the future version.
 export const COURSE_TITLES: Record<string, string> = {
   "Computer-Vision": "计算机视觉",
   "Signals-and-Systems": "信号与系统",

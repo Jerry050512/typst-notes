@@ -55,11 +55,11 @@ function runBuild() {
 
   if (result.error) {
     console.error("[build] failed to spawn shiroa:", result.error);
-    process.exit(1);
+    throw new Error(`failed to spawn shiroa: ${result.error.message}`);
   }
   if (result.status !== 0) {
     console.error(`[build] shiroa exited with code ${result.status}`);
-    process.exit(result.status ?? 1);
+    throw new Error(`shiroa exited with code ${result.status}`);
   }
 
   console.log(`[build] done. output: ${DIST_DIR}`);
@@ -69,6 +69,9 @@ function main() {
   clearModifications();
   try {
     runBuild();
+  } catch (err) {
+    console.error("[build] build failed:", err);
+    process.exit(1);
   } finally {
     restoreModifications();
   }

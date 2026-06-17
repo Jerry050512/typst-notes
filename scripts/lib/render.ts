@@ -69,6 +69,34 @@ function removeFirstHeading(filePath: string): void {
   console.log(`[build] removed first heading from ${path.relative(ROOT, filePath)}`);
 }
 
+function removeConfFromFile(filePath: string): void {
+  if (!existsSync(filePath)) return;
+  const content = readFileSync(filePath, "utf-8");
+  const startMatch = content.match(/#show:\s*conf\.with\(/);
+  if (!startMatch || startMatch.index === undefined) return;
+
+  let i = startMatch.index + startMatch[0].length - 1; // 指向 '('
+  let depth = 1;
+  i++; // 从 '(' 之后开始
+  while (i < content.length && depth > 0) {
+    if (content[i] === "(") depth++;
+    else if (content[i] === ")") depth--;
+    i++;
+  }
+
+  let end = i;
+  // 跳过尾部空白和换行
+  while (end < content.length && /[\s\r\n]/.test(content[end])) end++;
+
+  const offset = startMatch.index;
+  const removed = content.slice(offset, end);
+  const newContent = content.slice(0, offset) + content.slice(end);
+
+  writeFileSync(filePath, newContent);
+  modifications.push({ file: filePath, offset, removed });
+  console.log(`[build] removed conf template from ${path.relative(ROOT, filePath)}`);
+}
+
 export function generateWrapper(course: Course, ch: Chapter, kind: "note" | "practice"): string {
   const name = wrapperName(course, ch, kind);
   const wrapperPath = path.join(WEB_DIR, name);
@@ -76,6 +104,8 @@ export function generateWrapper(course: Course, ch: Chapter, kind: "note" | "pra
 
   if (ch.fromInclude) {
     removeFirstHeading(path.join(ROOT, ch.file));
+  } else {
+    removeConfFromFile(path.join(ROOT, ch.file));
   }
 
   const content = `#import "/book.typ": book-page
