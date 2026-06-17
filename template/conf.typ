@@ -1,4 +1,7 @@
 #import "preamble.typ": *
+#import "@preview/shiroa:0.3.1": is-html-target
+
+#let is-html = is-html-target()
 
 #let conf(
   title: none,
@@ -23,73 +26,79 @@
     marker: ("▪", )
   )
 
-  set page(
-    header: align(
-      right,
-      title
-    ),
-    footer: align(
-      right,
-      [Typst Version: #sys.version]
+  if not is-html {
+    set page(
+      header: align(
+        right,
+        title
+      ),
+      footer: align(
+        right,
+        [Typst Version: #sys.version]
+      )
     )
-  )
-
-  show heading.where(
-    level: 1
-  ): it => block(width: 100%)[
-    #block()
-    #set align(center)
-    #set text(
-      size: 20pt
-    )
-    #it
-    #block()
-  ]
-
-  set align(center)
-  text(30pt, title, weight: "bold")
-
-  {
-    set text(
-      size: 14pt
-    )
-    let count = authors.len()
-    let ncols = calc.min(count, 3)
-    grid(
-      columns: (1fr,) * ncols,
-      row-gutter: 24pt,
-      ..authors.map(author => [
-        #author.name \
-        #author.affiliation \
-        #link("mailto:" + author.email)
-      ]),
-    )
-
-    align(center)[
-      Update: #datetime.today().display()
-    ]
-
-    line(length: 60%, stroke: (paint: titlecolor, thickness: 1.2pt))
   }
 
-  set align(left)
+  if not is-html {
+    show heading.where(
+      level: 1
+    ): it => block(width: 100%)[
+      #block()
+      #set align(center)
+      #set text(
+        size: 20pt
+      )
+      #it
+      #block()
+    ]
 
-  outline()
+    set align(center)
+    text(30pt, title, weight: "bold")
+
+    {
+      set text(
+        size: 14pt
+      )
+      let count = authors.len()
+      let ncols = calc.min(count, 3)
+      grid(
+        columns: (1fr,) * ncols,
+        row-gutter: 24pt,
+        ..authors.map(author => [
+          #author.name \
+          #author.affiliation \
+          #link("mailto:" + author.email)
+        ]),
+      )
+
+      align(center)[
+        Update: #datetime.today().display()
+      ]
+
+      line(length: 60%, stroke: (paint: titlecolor, thickness: 1.2pt))
+    }
+
+    set align(left)
+
+    outline()
+  }
 
   // pagebreak()
   set par(
     justify: true, // for Chinese alignment.
   )
 
-  show heading.where(level: 1): it => {
-    counter(math.equation).update(0)
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
-    counter(figure.where(kind: raw)).update(0)
-    pagebreak(weak: true)
-    v(0.6em)
-    it
-    v(0.4em)
+  if not is-html {
+    show heading.where(level: 1): it => {
+      counter(math.equation).update(0)
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
+      counter(figure.where(kind: raw)).update(0)
+      pagebreak(weak: true)
+      v(0.6em)
+      it
+      v(0.4em)
+    }
   }
 
   show heading.where(level: 2): it => {
