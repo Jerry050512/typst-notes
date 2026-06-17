@@ -49,7 +49,7 @@ figcaption {
 
 /* 行内公式：按 SVG 自然高度渲染，上限跟随正文字号，避免强制压缩 */
 .inline-equation svg {
-  height: 0.8em;
+  height: auto;
   max-height: 1.1em;
   width: auto;
   vertical-align: middle;
@@ -73,6 +73,12 @@ figcaption {
 td .inline-equation svg,
 th .inline-equation svg {
   max-height: 1.5em;
+}
+
+/* 表格居中、自适应宽度，避免撑出容器 */
+.typst-table-wrapper table {
+  max-width: 100%;
+  border-collapse: collapse;
 }
 ```
 

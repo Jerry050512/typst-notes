@@ -112,5 +112,12 @@ html.elem("div", attrs: (class: "typst-align typst-align-" + h, style: "text-ali
       ]
     ]
   }
+  // 表格默认单元格内容居中，并在页面上水平居中
+  set table(align: center + horizon)
+  show table: it => context if is-html-target() {
+    html.elem("div", attrs: (class: "typst-table-wrapper", style: "display:flex;justify-content:center;overflow-x:auto;margin:1em 0;"))[
+      #it
+    ]
+  }
   project(title: title, description: description, body)
 }
