@@ -2,5 +2,37 @@
 
 Reference-Book/
 
+# Archive templates Link
+archive/template/
+
+# Local Docs
+docs.local/
+
 # claude code 配置
-.claude
+.claude/
+.trae/
+
+# Build outputs
+dist/
+web-notes/
+book.typ
+intro.typ
+
+# Local tooling
+tools/
+
+# Temporary files
+*.log
+test-*.html
+test-*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node/bun
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
