@@ -47,15 +47,15 @@ figcaption {
   margin-bottom: 0;
 }
 
-/* 行内公式大小跟随正文字号 */
+/* 行内公式：按 SVG 自然高度渲染，上限跟随正文字号，避免强制压缩 */
 .inline-equation svg {
-  height: auto;
-  max-height: 1.5em;
+  height: 0.8em;
+  max-height: 1.1em;
   width: auto;
-  vertical-align: -0.25em;
+  vertical-align: middle;
 }
 
-/* block 公式间距与大小 */
+/* block 公式：按 SVG 自然高度渲染，只限制最大宽度与上限，避免强制等高压扁复杂公式 */
 .block-equation {
   margin-top: 1em;
   margin-bottom: 1em;
@@ -64,13 +64,15 @@ figcaption {
 .block-equation svg {
   max-width: 100%;
   height: auto;
-  max-height: 15em;
+  max-height: 20em;
   width: auto;
 }
 
-/* 表格中的公式大小适配 */
-.typst-grid-cell .inline-equation svg {
-  max-height: 1.1em;
+/* grid / table 单元格中的行内公式上限稍低，避免撑开单元格 */
+.typst-grid-cell .inline-equation svg,
+td .inline-equation svg,
+th .inline-equation svg {
+  max-height: 1.5em;
 }
 ```
 
@@ -79,6 +81,9 @@ figcaption {
 
   // Apply markup rules (headings, lists, etc.) for web.
   show: markup-rules.with(themes: themes)
+
+  // 统一放大 block 公式，让复杂公式在 web 上更清晰
+  show math.equation.where(block: true): set text(size: 1.3em)
 
   // Render inline/block equations as SVG via shiroa's own rules.
   show: equation-rules.with(theme-box: themed-box)

@@ -18,6 +18,13 @@ const ARCHIVE_DIR = path.join(ROOT, "archive");
 
 const SHIROA_BIN = process.env.SHIROA_BIN ?? path.join(ROOT, "tools", "shiroa", "shiroa.exe");
 
+function normalizePathToRoot(p: string): string {
+  let s = p;
+  if (!s.startsWith("/")) s = "/" + s;
+  if (!s.endsWith("/")) s = s + "/";
+  return s;
+}
+
 function runBuild() {
   console.log("[build] scanning courses...");
   const active = listCourses(ROOT).filter((c) => c.name !== "archive").sort(sortCourses);
@@ -45,8 +52,11 @@ function runBuild() {
   process.env.TYPST_FONT_PATHS = fontPaths.join(path.delimiter);
   console.log("[build] font paths:", fontPaths.join(", "));
 
+  const basePath = normalizePathToRoot(process.env.BASE_PATH ?? "/");
+  console.log("[build] path-to-root:", basePath);
+
   console.log("[build] running shiroa build...");
-  const args = ["build", ".", "--mode", "static-html"];
+  const args = ["build", ".", "--mode", "static-html", "--path-to-root", basePath];
   const result = spawnSync(SHIROA_BIN, args, {
     cwd: ROOT,
     stdio: "inherit",
