@@ -3,22 +3,22 @@ import { spawnSync } from "child_process";
 import { listCourses, sortCourses } from "./lib/courses";
 import {
   generateWrapper,
-  generateWholeCourseWrapper,
   renderBookTyp,
   renderIntroTyp,
   resetWebDir,
+  clearModifications,
+  restoreModifications,
 } from "./lib/render";
 import { ensureSourceHanFonts, getFontPaths } from "./lib/fonts";
 import { emptyDir } from "./lib/utils";
 
 const ROOT = process.cwd();
-const WEB_DIR = path.join(ROOT, "web-notes");
 const DIST_DIR = path.join(ROOT, "dist");
 const ARCHIVE_DIR = path.join(ROOT, "archive");
 
 const SHIROA_BIN = process.env.SHIROA_BIN ?? path.join(ROOT, "tools", "shiroa", "shiroa.exe");
 
-function main() {
+function runBuild() {
   console.log("[build] scanning courses...");
   const active = listCourses(ROOT).filter((c) => c.name !== "archive").sort(sortCourses);
   const archived = listCourses(ARCHIVE_DIR).sort(sortCourses);
@@ -28,9 +28,8 @@ function main() {
   console.log("[build] generating web wrappers...");
   resetWebDir();
   for (const c of [...active, ...archived]) {
-    for (const ch of c.chapters) generateWrapper(c, ch);
-    generateWholeCourseWrapper(c, "note");
-    generateWholeCourseWrapper(c, "practice");
+    for (const ch of c.noteChapters) generateWrapper(c, ch, "note");
+    for (const ch of c.practiceChapters) generateWrapper(c, ch, "practice");
   }
 
   console.log("[build] generating book.typ and intro.typ from templates...");
@@ -64,6 +63,15 @@ function main() {
   }
 
   console.log(`[build] done. output: ${DIST_DIR}`);
+}
+
+function main() {
+  clearModifications();
+  try {
+    runBuild();
+  } finally {
+    restoreModifications();
+  }
 }
 
 main();

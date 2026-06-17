@@ -14,3 +14,7 @@
 == 包含的课程
 
 {{ CourseList }}
+
+== 备注
+
+当前 Typst 的 HTML 导出功能正在积极开发中，可能存在各种 bug，网站的绘图以及部分组件的渲染可能存在问题，要确保完整的笔记内容，建议下载 #link("https://github.com/jerry050512/typst-notes/releases")[Github Releases] 中最新的 PDF 版本。

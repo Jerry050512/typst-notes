@@ -2,15 +2,15 @@ export type Chapter = {
   file: string;
   slug: string;
   title: string;
+  fromInclude?: boolean;
 };
 
 export type Course = {
   name: string;
   title: string;
   dir: string;
-  chapters: Chapter[];
-  hasNote: boolean;
-  hasPractice: boolean;
+  noteChapters: Chapter[];
+  practiceChapters: Chapter[];
 };
 
 export const COURSE_TITLES: Record<string, string> = {
