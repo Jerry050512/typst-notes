@@ -13,7 +13,7 @@
 // Prefer Source Han Serif for Chinese body text.
 #let extra-css = ```css
 :root {
-  --sl-font: "Source Han Serif SC", "Source Han Serif CN", "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --sl-font: "Noto Serif SC", "Source Han Serif SC", "Source Han Serif CN", "Songti SC", "SimSun", serif;
 }
 
 .site-title {
@@ -95,6 +95,15 @@ th .inline-equation svg {
 
   // Render inline/block equations as SVG via shiroa's own rules.
   show: equation-rules.with(theme-box: themed-box)
+
+  set text(
+    font: (
+      "New Computer Modern",
+      "Source Han Serif SC",
+      "Source Han Serif",
+    ),
+    lang: "zh",
+  )
 
   starlight(
     include "/book.typ",

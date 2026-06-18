@@ -71,7 +71,16 @@ function runBuild() {
   console.log("[build] path-to-root:", basePath);
 
   console.log("[build] running shiroa build...");
-  const args = ["build", ".", "--mode", "static-html", "--path-to-root", basePath];
+  const args = [
+    "build", 
+    ".", 
+    "--mode", 
+    "static-html", 
+    "--path-to-root", 
+    basePath,
+    "--font-path",
+    fontPaths.join(path.delimiter),
+  ];
   const result = spawnSync(SHIROA_BIN, args, {
     cwd: ROOT,
     stdio: "inherit",
