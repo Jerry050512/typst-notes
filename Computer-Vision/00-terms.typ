@@ -21,3 +21,10 @@
 / 国际计算机视觉会议: International Conference on Computer Vision (ICCV)
 / 欧洲计算机视觉会议: European Conference on Computer Vision (ECCV)
 / 摄影测量: Photogrammetry
+/ 明适应/暗适应: Light / Dark Adaptation
+/ 双眼视差: Binocular Disparity
+/ 视场: Field of View (FOV)
+/ 工作距离: Working Distance (WD)
+/ 分辨率: Resolution
+/ 景深: Depth of Field (DoF)
+/ 全景光学环带成像技术: Panoramic Annular Imaging (PAI)

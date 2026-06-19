@@ -19,3 +19,4 @@
 #set heading(numbering: "1.1")
 #include "01-computer-vision-summary.typ"
 #include "02-human-visual-system.typ"
+#include "03-visual-system.typ"
