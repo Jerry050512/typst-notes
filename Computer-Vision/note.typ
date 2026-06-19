@@ -13,12 +13,10 @@
   )
 )
 
-= Testing Title
+#set heading(numbering: none)
+#include "00-terms.typ"
 
-== Testing Subtitle
-
-- Test List
-
-= Testing Title 2
-
-$ "Formula Test: " E = m c^2 $
+#set heading(numbering: "1.1")
+#include "01-computer-vision-summary.typ"
+#include "02-human-visual-system.typ"
+#include "03-visual-system.typ"
