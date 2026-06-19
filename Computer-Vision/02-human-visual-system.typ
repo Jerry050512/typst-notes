@@ -123,3 +123,63 @@ $ L = (d I) / (d A cos theta) = (d^2 Phi) / (d Omega d A cos theta) $
 $ I_theta = I_0 dot cos theta $
 / 照度: 单位面积上的光通量。单位 (lx)
 $ E = (d Phi) / (d A) $
+
+=== CIE 1931 颜色系统
+
+CIE（国际照明委员会）通过颜色匹配实验定义了标准观察者的三刺激值：
+
+#formula[
+  $ R = integral_lambda k phi(lambda) macron(r)(lambda) d lambda, quad
+    G = integral_lambda k phi(lambda) macron(g)(lambda) d lambda, quad
+    B = integral_lambda k phi(lambda) macron(b)(lambda) d lambda $
+]
+
+其中 $macron(r), macron(g), macron(b)$ 是颜色匹配函数（CIE标准曲线），$phi(lambda)$ 是光谱分布。
+
+*色品坐标*（去掉亮度，只保留颜色信息）：
+
+#formula[
+  $ x = X/(X+Y+Z), quad y = Y/(X+Y+Z), quad z = Z/(X+Y+Z) $
+  约束：$x + y + z = 1$（只需 $x, y$ 即可确定颜色）
+]
+
+#intuition[
+  色品坐标就像归一化：把绝对亮度去掉，只留颜色本身的信息。就像不管灯有多亮，只关心灯是什么颜色。
+]
+
+/ CIE 1931 xy系统色品图: 在光谱轨迹外面的所有颜色都是物理上不能实现的。光谱轨迹曲线以及连接光谱两端点的直线所构成的马蹄形内包括了一切物理上能实现的颜色。
+
+#figure(
+  image("assets/02-system-color.png", width: 70%),
+  caption: "CIE 1931 xy色品图"
+)
+
+/ 颜色宽容度: 在色度图上，把人眼感觉不出颜色变化的范围
+
+#intuition[在CIE-1931xy色度图的不同位置上，颜色的宽容量不一样，如*蓝色部分宽容量最小，绿色部分最大*。
+]
+
+
+=== 常用颜色空间对比
+
+#table(
+  columns: (auto, 1fr, 1fr),
+  stroke: (paint: rgb("#ccc"), thickness: 0.5pt),
+  inset: 6pt,
+  fill: (col, row) => if row == 0 { sectionbg } else { white },
+  table.header(
+    text(fill: titlecolor, weight: "bold", "颜色空间"),
+    text(fill: titlecolor, weight: "bold", "特点"),
+    text(fill: titlecolor, weight: "bold", "典型用途"),
+  ),
+  [RGB], [设备相关，三通道线性叠加，最直观], [相机输出、显示器],
+  [XYZ], [设备无关，颜色匹配实验定义的标准空间], [颜色转换中间枢纽],
+  [xy色品图], [二维，仅表达颜色（去除亮度）], [色域可视化、白点定义],
+  [Lab], [感知均匀（等距=等感知差异），L亮度/a绿-红/b蓝-黄], [颜色差计算（$Delta E$）],
+  [HSV], [H色调/S饱和度/V明度，更贴近人描述颜色的方式], [图像分割、颜色选取],
+)
+
+#key[同色异谱（Metamerism）]：光谱不同，但在某观察者眼中颜色完全相同。这就是为什么不同品牌的白纸在某些光源下颜色"不一样"。
+
+#key[颜色恒常性（Color Constancy）]：不同光照下，大脑倾向于认为物体颜色不变（你知道香蕉是黄的，无论在什么灯下）。
+
