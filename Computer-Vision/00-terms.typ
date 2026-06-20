@@ -28,3 +28,7 @@
 / 分辨率: Resolution
 / 景深: Depth of Field (DoF)
 / 全景光学环带成像技术: Panoramic Annular Imaging (PAI)
+/ 径向畸变: Radial Distortion
+/ 切向畸变: Tangential Distortion
+/ 仿射和非正交变形: Affine and Non-Orthogonal Deformation
+/ 相机标定: Camera Calibration

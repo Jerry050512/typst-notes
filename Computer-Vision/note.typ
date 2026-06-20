@@ -21,3 +21,4 @@
 #include "02-human-visual-system.typ"
 #include "03-visual-system.typ"
 #include "04-computer-graph-geometric-transfomation.typ"
+#include "05-optical-imaging-model-and-camera-calibration.typ"
