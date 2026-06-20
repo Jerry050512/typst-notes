@@ -20,3 +20,4 @@
 #include "01-computer-vision-summary.typ"
 #include "02-human-visual-system.typ"
 #include "03-visual-system.typ"
+#include "04-computer-graph-geometric-transfomation.typ"
