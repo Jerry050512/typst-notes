@@ -34,3 +34,5 @@
 / 相机标定: Camera Calibration
 / 本质矩阵: Essential Matrix
 / 基本矩阵: Fundamental Matrix
+/ 单应矩阵: Homography Matrix
+/ 视差: Disparity
