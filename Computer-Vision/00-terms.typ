@@ -28,3 +28,14 @@
 / 分辨率: Resolution
 / 景深: Depth of Field (DoF)
 / 全景光学环带成像技术: Panoramic Annular Imaging (PAI)
+/ 径向畸变: Radial Distortion
+/ 切向畸变: Tangential Distortion
+/ 仿射和非正交变形: Affine and Non-Orthogonal Deformation
+/ 相机标定: Camera Calibration
+/ 本质矩阵: Essential Matrix
+/ 基本矩阵: Fundamental Matrix
+/ 单应矩阵: Homography Matrix
+/ 视差: Disparity
+/ 运动恢复结构: Structure from Motion (SfM)
+/ 捆绑调整: Bundle Adjustment (BA)
+/ PnP 问题: Perspective-n-Point (PnP) Problem
