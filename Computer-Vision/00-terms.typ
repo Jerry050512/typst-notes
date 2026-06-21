@@ -36,3 +36,6 @@
 / 基本矩阵: Fundamental Matrix
 / 单应矩阵: Homography Matrix
 / 视差: Disparity
+/ 运动恢复结构: Structure from Motion (SfM)
+/ 捆绑调整: Bundle Adjustment (BA)
+/ PnP 问题: Perspective-n-Point (PnP) Problem

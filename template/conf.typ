@@ -96,7 +96,7 @@
     v(0.5em)
     stack(
       spacing: 3pt,
-      text(fill: titlecolor, weight: "bold", size: 14pt, "▌ " + it.body.fields().at("text", default: "")),
+      text(fill: titlecolor, weight: "bold", size: 14pt, "▌ " + it.body),
       line(length: 100%, stroke: (paint: titlecolor, thickness: 0.5pt))
     )
     v(0.2em)
