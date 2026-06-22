@@ -15,6 +15,7 @@
 
 #set heading(numbering: none)
 #include "00-terms.typ"
+#include "10-exam-review.typ"
 
 #set heading(numbering: "1.1")
 #include "01-computer-vision-summary.typ"
@@ -25,3 +26,4 @@
 #include "06-triangulation-and-polar-geometry.typ"
 #include "07-stero-vision.typ"
 #include "08-structure-from-motion.typ"
+#include "09-fitting.typ"
