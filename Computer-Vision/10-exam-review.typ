@@ -298,7 +298,10 @@ $t_"exp" lt.eq (5 times 10^(-3))/(100 times 0.1) = 0.5"ms"$
   [牛顿公式], [ $ x x' = f f' $ ],
   [高斯公式], [ $ 1/f = 1/d_o + 1/d_i $ ],
   [垂轴放大率], [ $ beta = y'/y = -d_i / d_o = f/x = -x'/f' $ ],
-  [镜头F数], [ $ F = f / D $ （$f$焦距，$D$孔径直径）],
+  [镜头F数], [
+    $ F = f / D $
+    （$f$焦距，$D$孔径直径）
+  ],
   [焦距选择], [ $ f' = (beta dot "WD") / (1 + beta) $ ],
   [清晰成像], [ $ t_"exp" lt.eq "像元尺寸" / (v dot beta) $ ],
 )
@@ -314,10 +317,22 @@ $t_"exp" lt.eq (5 times 10^(-3))/(100 times 0.1) = 0.5"ms"$
     text(fill: titlecolor, weight: "bold", "物理量"),
     text(fill: titlecolor, weight: "bold", "公式/单位"),
   ),
-  [光通量与辐通量], [ $ Phi_v = K_m integral Phi_e(lambda) V(lambda) d lambda $ ，$ K_m = 683"lm/W" $ ],
-  [发光强度], [ $ I = (d Phi) / (d Omega) $ ，单位：cd（坎德拉）],
-  [照度], [ $ E = (d Phi) / (d A) $ ，单位：lx（勒克斯）],
-  [亮度], [ $ L = (d I) / (d A cos theta) $ ，单位：cd/m²],
+  [光通量与辐通量], [
+    $ Phi_v = K_m integral Phi_e(lambda) V(lambda) d lambda $
+    $ K_m = 683"lm/W" $
+  ],
+  [发光强度], [
+    $ I = (d Phi) / (d Omega) $
+    单位：cd（坎德拉）
+  ],
+  [照度], [
+    $ E = (d Phi) / (d A) $
+    单位：lx（勒克斯）
+  ],
+  [亮度], [
+    $ L = (d I) / (d A cos theta) $
+    单位：cd/m²
+  ],
 )
 
 === 相机标定与坐标变换
@@ -350,7 +365,10 @@ $t_"exp" lt.eq (5 times 10^(-3))/(100 times 0.1) = 0.5"ms"$
   [本质矩阵], [ $ E = [bold(t)]_times R $ ],
   [基础矩阵], [ $ F = K'^(-T) E K^(-1) $ ],
   [对极约束], [ $ bold(x)'^T F bold(x) = 0 $ ],
-  [极线计算], [ $ bold(l)' = F bold(x) $ （右图极线）],
+  [极线计算], [
+    $ bold(l)' = F bold(x) $
+    （右图极线）
+  ],
 )
 
 === 双目立体视觉
@@ -365,7 +383,10 @@ $t_"exp" lt.eq (5 times 10^(-3))/(100 times 0.1) = 0.5"ms"$
     text(fill: titlecolor, weight: "bold", "公式"),
   ),
   [视差], [ $ d = x_l - x_r $ ],
-  [深度计算], [ $ Z = (f dot B) / d $ （$f$焦距，$B$基线长度）],
+  [深度计算], [
+    $ Z = (f dot B) / d $
+    （$f$焦距，$B$基线长度）
+  ],
   [归一化相关匹配], [ $ "NCC" = ((bold(w) - overline(w))^T (bold(w)' - overline(w)')) / (||bold(w) - overline(w)|| dot ||bold(w)' - overline(w)'||) $ ],
 )
 
