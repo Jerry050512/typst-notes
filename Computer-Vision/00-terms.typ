@@ -39,3 +39,8 @@
 / 运动恢复结构: Structure from Motion (SfM)
 / 捆绑调整: Bundle Adjustment (BA)
 / PnP 问题: Perspective-n-Point (PnP) Problem
+/ 最小二乘法: Least Squares
+/ 全最小二乘法: Total Least Squares
+/ 鲁棒拟合: Robust Fitting
+/ 随机采样一致性: Random Sample Consensus (RANSAC)
+/ 霍夫变换: Hough Transform
