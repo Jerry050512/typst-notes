@@ -25,3 +25,4 @@
 #include "06-triangulation-and-polar-geometry.typ"
 #include "07-stero-vision.typ"
 #include "08-structure-from-motion.typ"
+#include "09-fitting.typ"

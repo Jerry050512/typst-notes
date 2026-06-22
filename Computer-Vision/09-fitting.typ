@@ -493,46 +493,12 @@
       text(fill: titlecolor, weight: "bold", "方面"),
       text(fill: titlecolor, weight: "bold", "描述"),
     ),
-    [优点 1], [可处理非局部性和遮挡],
-    [优点 2], [可检测模型的多个实例（多条直线/多个圆）],
-    [优点 3], [对噪声有一定鲁棒性（噪声点不太可能同时影响多个格子）],
-    [缺点 1], [#key[搜索时间复杂度随参数数量呈指数增长]],
-    [缺点 2], [非目标形状可能在参数空间产生伪峰],
-    [缺点 3], [很难选择合适的离散化网格尺寸],
+    table.cell(rowspan: 3)[优点], [可处理非局部性和遮挡],
+    [可检测模型的多个实例（多条直线/多个圆）],
+    [对噪声有一定鲁棒性（噪声点不太可能同时影响多个格子）],
+    table.cell(rowspan: 3)[缺点], [#key[搜索时间复杂度随参数数量呈指数增长]],
+    [非目标形状可能在参数空间产生伪峰],
+    [很难选择合适的离散化网格尺寸],
   ),
   caption: [霍夫变换的优缺点]
 )
-
-== 总结对比
-
-#figure(
-  table(
-    columns: (auto, 1fr, 1fr),
-    stroke: (paint: rgb("#ccc"), thickness: 0.5pt),
-    inset: 6pt,
-    fill: (col, row) => if row == 0 { sectionbg } else if calc.odd(row) { white } else { rgb("#f8f9fa") },
-    table.header(
-      text(fill: titlecolor, weight: "bold", "方法"),
-      text(fill: titlecolor, weight: "bold", "适用场景"),
-      text(fill: titlecolor, weight: "bold", "核心思想"),
-    ),
-    [最小二乘法], [无外点，单条直线], [最小化误差平方和],
-    [鲁棒最小二乘法], [少量外点], [用饱和函数惩罚大残差],
-    [RANSAC], [大量外点], [随机抽样 + 一致性投票],
-    [霍夫变换], [多条直线/多个目标], [参数空间累加器投票],
-  ),
-  caption: [拟合方法对比]
-)
-
-#warnbox[
-  *本章核心考点*：
-
-  + #key[RANSAC 全称]：Random Sample Consensus（随机采样一致性）
-  + #key[极坐标平面内的累加器单元算法]（必考大题）：
-    - 输入/输出明确
-    - 10 步算法流程
-    - 关键公式 $rho = x cos theta + y sin theta$
-    - $theta in [0, 180 degree]$，$rho in [0, rho_max]$
-  + 最小二乘法的两种形式（垂直 vs 全最小二乘法）及其局限
-  + RANSAC 的样本数公式：$N = log(1-p) / log(1 - (1-e)^s)$
-]
