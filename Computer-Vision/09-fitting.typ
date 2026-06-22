@@ -68,7 +68,7 @@
 
 #formula[
   $
-  E = sum_i rho(r_i (x_i, theta); sigma)
+  E = sum_i rho(r_i (x_i, theta), sigma)
   $
 ]
 
@@ -80,7 +80,7 @@
 
 #formula[
   $
-  rho(r; sigma) = r^2 / (r^2 + sigma^2)
+  rho(r, sigma) = r^2 / (r^2 + sigma^2)
   $
 ]
 
@@ -111,9 +111,16 @@
 
 == RANSAC
 
-#key[*重点*：RANSAC 全称必考！]
+#key[\*重点：RANSAC 全称必考！Random Sample Consensus（随机采样一致性）]
 
-/ RANSAC: 全称 *Random Sample Consensus*（#key[随机采样一致性]），由 Fischler 和 Bolles 于 1981 年提出，是在存在外点情况下进行模型拟合的非常通用的框架。
+/ RANSAC: #key[\*必考全称] 全称 *Random Sample Consensus*（#key[随机采样一致性]），由 Fischler 和 Bolles 于 1981 年提出，是在存在外点情况下进行模型拟合的非常通用的框架。
+
+#warnbox[
+  #key[\*考试要点]：
+  - RANSAC全称：#key[Random Sample Consensus]（随机采样一致性）
+  - 中文翻译：随机采样一致性
+  - 这是填空题的高频考点，必须完整记住！
+]
 
 #intuition[
   RANSAC 的核心思想：与其试图让一条直线拟合所有点（包括外点），不如 *反复随机抽取最小样本拟合模型*，看哪个模型有最多的"支持者"（内点）。
@@ -270,6 +277,16 @@
 
 == 霍夫变换
 
+#key[\*考试重点：霍夫变换（翻译必考）、极坐标平面内累加器单元算法（必考大题）]
+
+#warnbox[
+  #key[\*必考术语]：霍夫变换 - #key[Hough Transform]
+
+  考试可能要求：
+  - 翻译"霍夫变换"为英文
+  - 或将"Hough Transform"翻译为中文
+]
+
 #intuition[
   RANSAC 是 *随机抽样投票*，霍夫变换则是 *每个点对所有可能的模型投票*。
 
@@ -341,6 +358,8 @@
 
 === 极坐标平面内的累加器单元算法\*
 
+#key[\*必考大题：极坐标平面内的累加器单元算法]
+
 #example(title: [必考大题\*])[
   #key[\*原题] 写出极坐标平面内的累加器单元算法。
 
@@ -376,12 +395,23 @@
 ]
 
 #warnbox[
-  *必考要点*：
-  - #key[输入]：$x y$ 平面的数据点
-  - #key[输出]：直线个数 + 每条直线的极坐标参数 $(rho, theta)$
-  - #key[核心思想]：每个数据点对参数空间所有 $theta$ 投票，累加器局部极值即为直线
-  - #key[关键公式]：$rho = x cos theta + y sin theta$
-  - #key[参数范围]：$theta in [0, 180 degree]$，$rho in [0, rho_max]$
+  #key[\*必考要点（背诵版）]：
+
+  *输入输出*：
+  - 输入：$x y$ 平面的数据点
+  - 输出：直线个数 + 每条直线的极坐标参数 $(rho, theta)$
+
+  *核心步骤*：
+  1. 计算 $rho_max$（所有点到原点的最大距离）
+  2. 初始化累加器 $H(rho, theta) = 0$，参数范围：$theta in [0, 180 degree]$，$rho in [0, rho_max]$
+  3. 对每个数据点 $(x_i, y_i)$：
+     - 遍历所有 $theta$
+     - 计算 $rho = x_i cos theta + y_i sin theta$
+     - 累加器投票：$H(rho, theta) = H(rho, theta) + 1$
+  4. 找累加器的局部极值点，每个极值点对应一条直线
+  5. 输出结果
+
+  *关键公式*：$rho = x cos theta + y sin theta$（极坐标直线方程）
 ]
 
 === 算法简洁伪代码
