@@ -15,6 +15,7 @@
 
 #set heading(numbering: none)
 #include "00-terms.typ"
+#include "10-exam-review.typ"
 
 #set heading(numbering: "1.1")
 #include "01-computer-vision-summary.typ"
