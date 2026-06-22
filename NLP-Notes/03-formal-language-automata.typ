@@ -88,14 +88,14 @@
 
 === 四种文法类型
 
-#highlight《0型文法 — 无限制文法《Unrestricted Grammar》》
+#text(fill: red, weight: "bold")[0型文法 — 无限制文法（Unrestricted Grammar）]
 
 - 产生式形式：alpha -› beta，其中 alpha in 《VN union VT》+，beta in 《VN union VT》
 - 唯一限制：alpha 不能为空串
 - 对应自动机：图灵机《Turing Machine》
 - 表达能力：最强，可描述递归可枚举语言
 
-#highlight《1型文法 — 上下文有关文法《Context-Sensitive Grammar, CSG》》
+#text(fill: red, weight: "bold")[1型文法 — 上下文有关文法（Context-Sensitive Grammar, CSG）]
 
 - 产生式形式：alpha A beta -› alpha gamma beta
 - 要求： alpha A beta  ‹=  alpha gamma beta ，即  gamma  ›= 1《非收缩性》
@@ -103,7 +103,7 @@
 - 对应自动机：线性有界自动机《Linear Bounded Automaton》
 - 对应语言：上下文有关语言
 
-#highlight《2型文法 — 上下文无关文法《Context-Free Grammar, CFG》》
+#text(fill: red, weight: "bold")[2型文法 — 上下文无关文法（Context-Free Grammar, CFG）]
 
 - 产生式形式：A -› gamma
 - 要求：A in VN《单个非终结符》，gamma in 《VN union VT》
@@ -111,7 +111,7 @@
 - 对应自动机：下推自动机《Pushdown Automaton》
 - 对应语言：上下文无关语言
 
-#highlight《3型文法 — 正则文法《Regular Grammar》》
+#text(fill: red, weight: "bold")[3型文法 — 正则文法（Regular Grammar）]
 
 - 产生式形式《右线性》：A -› wB 或 A -› w
 - 产生式形式《左线性》：A -› Bw 或 A -› w
@@ -202,7 +202,7 @@ NFA 的特点：
 
 === DFA 与 NFA 的等价性
 
-#highlight《重要定理》：DFA 和 NFA 等价，即它们能识别的语言类完全相同 — 都是正则语言。
+#text(fill: red, weight: "bold")[重要定理：DFA 和 NFA 等价，即它们能识别的语言类完全相同 — 都是正则语言。]
 
 - 子集构造法《Subset Construction》：可将 NFA 转化为等价的 DFA
 - 转化后 DFA 的状态数最多为 2{ Q }《NFA 状态数的幂集》
@@ -235,7 +235,7 @@ NFA 的特点：
 
 === 等价性定理
 
-#highlight《Kleene 定理》：正则表达式、DFA、NFA 三者等价。
+#text(fill: red, weight: "bold")[Kleene 定理：正则表达式、DFA、NFA 三者等价。]
 
 即：对于任意正则表达式 r，存在 DFA《和 NFA》M 使得 L《r》 = L《M》；反之亦然。
 
