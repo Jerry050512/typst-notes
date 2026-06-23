@@ -44,7 +44,7 @@
   inset: 6pt,
   fill: (col, row) => if row == 0 { sectionbg } else if calc.odd(row) { white } else { rgb("#f8f9fa") },
   table.header([*阶段*], [*时间*], [*核心思想*], [*代表方法*]),
-  [小规模专家系统], [1950-1990], [语言学规则 + 知识库 + 推理], [ELIZA、SHRDLU、早期机器翻译],
+  [规则驱动/符号方法], [1950-1990], [模式匹配、语言学规则、知识表示与推理], [ELIZA、SHRDLU、早期机器翻译],
   [语料库统计模型], [1990-2010], [从大规模语料中统计规律], [N-gram、HMM、CRF、SVM],
   [深度学习模型], [2010-2017], [神经网络端到端学习表示], [Word2Vec、RNN、LSTM、Seq2Seq],
   [大规模预训练模型], [2018-至今], [Transformer + 预训练 + 微调/提示], [BERT、GPT、T5、LLaMA],
