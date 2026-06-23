@@ -3,7 +3,7 @@
 
 #show: conf.with(
   title: [
-    深度学习与神经网络 习题
+    计算机视觉 习题
   ],
   authors: (
     (
