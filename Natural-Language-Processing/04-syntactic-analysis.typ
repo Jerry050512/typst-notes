@@ -54,6 +54,24 @@
   [DE], [“的”字结构], [连接定语和中心词],
 )
 
+
+== 句法分析方法路线
+
+#table(
+  columns: (auto, 1fr, 1fr),
+  stroke: (paint: rgb("#ccc"), thickness: 0.5pt),
+  inset: 6pt,
+  fill: (col, row) => if row == 0 { sectionbg } else { white },
+  table.header([*路线*], [*核心*], [*优缺点*]),
+  [人工规则方法], [人工 CFG 规则库 + 搜索推理], [直观可解释；规则编制量大，长句和歧义处理困难],
+  [统计方法], [从树库学习规则概率或打分模型], [能选择最优结构，减少主观性；依赖标注语料],
+)
+
+浅层句法分析常识：Base NP 是非递归名词短语，VG 是动词词组，PP 是介词短语，DP/ADVP 是副词短语。浅层分析只识别局部语块，不处理完整远距离依赖。
+
+依存句法补充：依存理论强调 #key[动词中心]，输出通常是有向依存树。常见算法包括 Transition-based（SHIFT、LEFT-ARC、RIGHT-ARC，速度快）、Graph-based（全局最优，较慢）和 Sequence-labeling（把 head 与 relation 当标签预测）。
+
+
 == PCFG
 
 / 概率上下文无关文法 (Probabilistic Context-Free Grammar, PCFG): 在 CFG 的每条产生式上附加概率，用于选择最可能的句法树。
@@ -79,6 +97,26 @@
 ]
 
 #warnbox[CYK题关键是“先范式化，再填表”。如果文法没有转成 CNF，直接套 CYK 很容易错。]
+
+
+== CYK 作业题答题模板
+
+#methodblock[
+  对“咬 死 了 猎人 的 狗”这类题：
+  1. 先把三元规则范式化为 CNF，例如 `S → VP Aux NP` 拆成 `S → VP X1, X1 → Aux NP`；`NP → NP Aux NP` 拆成 `NP → NP X1, X1 → Aux NP`。
+  2. 单词层填入 `v, a, utl, n, Aux, n` 等可推出各词的非终结符。
+  3. 按跨度从 2 到 $n$ 枚举切分点，组合 `VC → v a`、`VC → VC utl`、`NP → NP Aux NP`、`VP → VC NP`、`S → VC NP` 等。
+  4. 顶层若包含 $S$，说明句子可由文法生成。
+  5. 记录回溯指针；本题要注意可能有多棵树。
+]
+
+#example(title: [“咬死了猎人的狗”的两种结构])[
+  - 结构 1：咬死了 [猎人 的 狗]，宾语是“猎人的狗”。
+  - 结构 2：[咬死了 猎人] 的 狗，中心是“狗”，前面是修饰语。
+
+  考试不一定要求画完整表格，但必须说明范式化、填表、回溯和歧义结构。
+]
+
 
 == 本章高频题
 

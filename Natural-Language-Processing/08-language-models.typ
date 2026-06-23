@@ -13,6 +13,13 @@
 #intuition[语言模型要判断“狗又咬人了”比“人又咬狗了”更常见，或者在“我今天去”后面预测“上课/学校/吃饭”的概率。]
 
 == N-gram 模型
+#example(title: [句首句尾标记])[
+  计算句子概率时常加入 `<BOS>` 和 `<EOS>`：
+  `P(John read a book) = P(John|<BOS>) P(read|John) P(a|read) P(book|a) P(<EOS>|book)`。
+]
+
+
+
 
 / N-gram模型: 基于马尔可夫假设，认为当前词只依赖前 $n-1$ 个词。
 
@@ -35,6 +42,14 @@
 == 数据稀疏与平滑
 
 / 数据稀疏: 很多合理的 N-gram 在训练语料中没有出现，MLE 会给出 0 概率。
+
+
+=== 数据稀疏根源
+
+- 参数爆炸：词表大小为 $V$，N-gram 阶数越高，需要估计的条件概率越多。
+- Zipf 定律：词频与排名近似满足 $f times r approx k$，大量低频词长期存在。
+- 零概率问题：合理词序列可能训练集中没出现，MLE 会把整个句子概率乘成 0。
+
 
 === 加一平滑
 
@@ -72,6 +87,15 @@ $V$ 是词汇表大小。
 
 缺点：训练成本更高，可解释性弱。
 
+
+#warnbox[加一平滑简单但粗糙：它给所有未出现事件分配相同概率，往往把过多概率质量给低频/未见事件，并压低高频事件概率。]
+
+=== Katz 回退与插值
+
+- 回退：高阶 N-gram 不可靠时退到低阶模型，并用归一化系数调整概率质量。
+- 插值：把 unigram、bigram、trigram 按权重加权求和，权重和为 1。
+
+
 == 评价：困惑度
 
 / 困惑度 (Perplexity, PP): 衡量语言模型对测试文本的不确定性，越低越好。
@@ -86,6 +110,26 @@ $V$ 是词汇表大小。
   3. 求平均负对数，即交叉熵 $H$。
   4. 计算 $"PP" = 2^H$。
 ]
+
+
+=== BLEU 与 ROUGE
+
+#table(
+  columns: (auto, 1fr, 1fr),
+  stroke: (paint: rgb("#ccc"), thickness: 0.5pt),
+  inset: 6pt,
+  fill: (col, row) => if row == 0 { sectionbg } else { white },
+  table.header([*指标*], [*常用场景*], [*核心思想*]),
+  [Perplexity], [语言模型], [越低说明模型越不困惑],
+  [BLEU], [机器翻译], [基于 N-gram 精确率，候选译文与参考译文越重合越好],
+  [ROUGE], [自动摘要], [偏召回率，摘要覆盖参考答案关键信息越多越好],
+)
+
+=== GPT 与 BERT 速记
+
+- GPT：自回归 Transformer Decoder，按从左到右预测下一个词，适合生成。
+- BERT：双向 Transformer Encoder，采用 MLM 和 NSP 训练，适合理解任务。
+
 
 == 本章高频题
 

@@ -46,6 +46,26 @@
   4. 时间复杂度：$O(N^2 T)$。
 ]
 
+
+== 后向算法
+
+#methodblock[
+  *定义*：$beta_t(i)=P(o_(t+1), dots, o_T | i_t=q_i, lambda)$。
+
+  1. 初始化：$beta_T(i)=1$。
+  2. 递推：$beta_t(i)=sum_j a_(i j) b_j(o_(t+1)) beta_(t+1)(j)$。
+  3. 终止：$P(O|lambda)=sum_i pi_i b_i(o_1) beta_1(i)$。
+]
+
+== HMM 学习问题速记
+
+#methodblock[
+  - 有标注状态序列：用频率做监督 MLE，$a_(i j)$ 是从 $i$ 到 $j$ 的转移次数除以从 $i$ 转出的总次数；$b_j(k)$ 是状态 $j$ 生成观测 $v_k$ 的次数除以状态 $j$ 出现总次数。
+  - 只有观测序列：用 Baum-Welch，也就是 EM 的 HMM 版本。
+  - 直接计算 $P(O|lambda)=sum_I P(O,I|lambda)$ 需要枚举 $N^T$ 条状态序列，复杂度太高，因此用前向/后向动态规划。
+]
+
+
 == Viterbi 算法
 
 #methodblock[
@@ -74,6 +94,14 @@
 
 其中 $f_i(x,y)$ 是特征函数，$lambda_i$ 是权重，$Z(x)$ 是归一化因子。
 
+
+=== 最大熵答题要点
+
+#methodblock[
+  最大熵原则：在满足已知约束的所有分布中，选择熵最大的分布。它既满足事实，又对未知部分不额外偏置。最大熵模型中的 $Z(x)=sum_y exp(sum_i lambda_i f_i(x,y))$ 用于归一化。
+]
+
+
 == 条件随机场 CRF
 
 / 条件随机场 (Conditional Random Field, CRF): 给定输入序列 $X$ 的条件下，直接建模输出序列 $Y$ 的条件概率 $P(Y|X)$ 的判别式模型。
@@ -94,6 +122,25 @@
   [训练], [相对简单], [较复杂，需优化条件似然],
   [效果], [基线模型，速度快], [序列标注中通常效果更好],
 )
+
+
+=== 线性链 CRF 公式与三问题
+
+#formula[$ P(y|x) = (1 / Z(x)) exp(sum_i sum_k lambda_k t_k(y_(i-1), y_i, x, i) + sum_i sum_l mu_l s_l(y_i, x, i)) $]
+
+其中 $t_k$ 是转移特征，依赖相邻标签；$s_l$ 是状态特征，依赖当前标签和观测；$Z(x)$ 对所有可能标签序列归一化。
+
+#table(
+  columns: (auto, 1fr, 1fr),
+  stroke: (paint: rgb("#ccc"), thickness: 0.5pt),
+  inset: 6pt,
+  fill: (col, row) => if row == 0 { sectionbg } else { white },
+  table.header([*问题*], [*目标*], [*常用方法*]),
+  [概率计算], [计算给定输入下各种标注序列概率], [前向-后向],
+  [学习], [估计特征权重参数], [极大似然/正则化极大似然],
+  [预测], [求概率最大的标注序列], [Viterbi 类动态规划],
+)
+
 
 == 本章高频题
 
