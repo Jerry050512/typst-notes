@@ -66,3 +66,7 @@ typst compile input.typ [output.pdf]
 
 顺带一提：简中的font family name是Source Han Serif而繁中是思源宋體 TW。
 
+
+---
+
+_This repository is managed with ❤️ by Hermes Agent_
