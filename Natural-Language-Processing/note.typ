@@ -15,6 +15,10 @@
 
 #show figure: set block(breakable: true)
 
+#set heading(numbering: none)
+#include "00-exam-review.typ"
+
+#set heading(numbering: "1.1")
 #include "01-introduction.typ"
 #include "02-morphological-analysis.typ"
 #include "03-formal-language-automata.typ"

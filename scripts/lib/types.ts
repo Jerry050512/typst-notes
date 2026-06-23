@@ -16,6 +16,7 @@ export type Course = {
 // [Deprecated]: Will be removed in the future version.
 export const COURSE_TITLES: Record<string, string> = {
   "Computer-Vision": "计算机视觉",
+  "Natural-Language-Processing": "自然语言处理",
   "Signals-and-Systems": "信号与系统",
   "Computer-Network": "计算机网络",
   "Neuro-Network-and-Deep-Learning": "神经网络与深度学习",

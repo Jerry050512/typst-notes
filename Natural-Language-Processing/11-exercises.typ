@@ -1,3 +1,5 @@
+#import "../template/preamble.typ": *
+
 // NLP 期末复习笔记 - 第11章：课后作业与习题精选
 // 来源：NLP作业合并.txt + 课程PPT习题
 
