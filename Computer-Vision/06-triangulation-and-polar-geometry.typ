@@ -31,15 +31,15 @@
     text(fill: titlecolor, weight: "bold", "概念"),
     text(fill: titlecolor, weight: "bold", "直觉理解"),
   ),
-  [极点 $e, e'$], [左相机光心在右图上的投影（反之亦然）；当相机光轴平行时，极点在无穷远处],
+  [极点 $e, e'$], [左相机光心在右图上的投影（反之亦然）；当基线平行于相应像平面时，极点位于无穷远处，仅有光轴平行并不足够],
   [极平面 $P O_1 O_2$], [两相机光心 + 空间点 $X$ 三点确定的平面],
   [极线 $p e, p' e'$], [极平面与图像平面的交线],
   [基础矩阵 $F$], [把左图点 $x$ 映射到右图极线 $l'$ 的 3×3 矩阵；秩为2],
-  [本质矩阵 $E$], [$F$ 的归一化版本（假设已知内参）；编码旋转 $R$ 和平移 $t$],
+  [本质矩阵 $E$], [$F$ 在归一化相机坐标下的对应形式（假设已知内参）；编码旋转 $R$ 和平移方向 $t$],
 )
 
 #key[\*必考术语翻译]：
-/ 本质矩阵 (Essential Matrix): #key[\*必考翻译] 对规范化摄像机拍摄的两个视点图像间的极几何关系进行代数描述，它编码了两个摄像机间的旋转和平移关系。 $ E = [bold(t)]_times R $
+/ 本质矩阵 (Essential Matrix): #key[\*必考翻译] 对规范化摄像机拍摄的两个视点图像间的极几何关系进行代数描述，它编码了两个摄像机间的旋转和平移方向；平移尺度不可由 $E$ 单独确定。 $ E = [bold(t)]_times R $
 / 基础矩阵 (Fundamental Matrix): #key[\*必考翻译] 对一般摄像机拍摄的两个视点图像间的极几何关系进行代数描述。 $ F = K'^(-T) E K^(-1) $
 / 单应矩阵 (Homography Matrix): #key[\*必考翻译] 描述空间平面在两个摄像机下的投影变换关系，适用于平面场景。
 
@@ -54,12 +54,12 @@
     inset: 6pt,
     fill: (col, row) => if row == 0 { sectionbg } else { white },
     table.header(
-      text(fill: titlecolor, weight: "bold", "对比项"),
-      text(fill: titlecolor, weight: "bold", "本质矩阵 $E$"),
-      text(fill: titlecolor, weight: "bold", "基础矩阵 $F$"),
+      text(fill: titlecolor, weight: "bold")[对比项],
+      text(fill: titlecolor, weight: "bold")[本质矩阵 $E$],
+      text(fill: titlecolor, weight: "bold")[基础矩阵 $F$],
     ),
     [适用场景], [已知相机内参（归一化坐标）], [未知相机内参（像素坐标）],
-    [编码信息], [旋转 $R$ 和平移 $bold(t)$], [完整投影关系（包含内参）],
+    [编码信息], [旋转 $R$ 和平移方向 $bold(t)$], [像素坐标下的两视图对极几何；依赖相对位姿和内参],
     [关系式], [$E = [bold(t)]_times R$], [$F = K'^(-T) E K^(-1)$],
     [自由度], [5（旋转3+平移方向2）], [7（9元素-尺度-秩2约束）],
     [奇异值], [$sigma_1 = sigma_2 > 0, sigma_3 = 0$], [两个非零奇异值（不一定相等）],
@@ -97,7 +97,7 @@
   $F = K'^(-T) E K^(-1)$
 ]
 
-本质矩阵 $E$ 可以分解出相机间的旋转 $R$ 和平移 $bold(t)$（差一个尺度）：
+本质矩阵 $E$ 可以分解出相机间的旋转 $R$ 和平移方向 $bold(t)$；平移大小无法仅由 $E$ 确定：
 
 $E = bold([t]_times) R$，其中 $bold([t]_times)$ 是 $bold(t)$ 的反对称矩阵。
 

@@ -25,9 +25,9 @@ $ mat(x'; y'; z') = mat(s_x, 0, 0; 0, s_y, 0; 0, 0, s_z) mat(x; y; z) $
 
 === 旋转变换 (Rotation)
 
-*绕 Z 轴旋转* $alpha$ 角：
+按右手系主动旋转约定，*绕 Z 轴逆时针旋转* $alpha$ 角：
 
-$ mat(x'; y'; z') = mat(cos alpha, sin alpha, 0; -sin alpha, cos alpha, 0; 0, 0, 1) mat(x; y; z) $
+$ mat(x'; y'; z') = mat(cos alpha, -sin alpha, 0; sin alpha, cos alpha, 0; 0, 0, 1) mat(x; y; z) $
 
 == 齐次坐标系统\*
 
@@ -51,8 +51,8 @@ $ mat(x'; y'; z') = mat(cos alpha, sin alpha, 0; -sin alpha, cos alpha, 0; 0, 0,
 *平移变换*：
 $ mat(x'; y'; z'; 1) = mat(1, 0, 0, Delta x; 0, 1, 0, Delta y; 0, 0, 1, Delta z; 0, 0, 0, 1) mat(x; y; z; 1) $
 
-*绕 Z 轴旋转*：
-$ mat(x'; y'; z'; 1) = mat(cos alpha, sin alpha, 0, 0; -sin alpha, cos alpha, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1) mat(x; y; z; 1) $
+*绕 Z 轴逆时针旋转（右手系主动旋转）*：
+$ mat(x'; y'; z'; 1) = mat(cos alpha, -sin alpha, 0, 0; sin alpha, cos alpha, 0, 0; 0, 0, 1, 0; 0, 0, 0, 1) mat(x; y; z; 1) $
 
 #warn[
   *矩阵乘法不满足交换律*：变换顺序会影响最终结果。例如"先旋转后平移"与"先平移后旋转"的结果不同。
@@ -64,7 +64,7 @@ $ mat(x'; y'; z'; 1) = mat(cos alpha, sin alpha, 0, 0; -sin alpha, cos alpha, 0,
 
 透视投影使远处物体看起来更小，产生近大远小的效果。
 
-/ 灭点 (Vanishing Point): 三维空间中的平行线，在透视投影后会相交于一点，这个点称为灭点。平行线越远离观察者，投影后越接近灭点。
+/ 灭点 (Vanishing Point): 三维空间中具有同一方向的一族平行线，在透视投影后共享同一灭点；若该方向平行于像平面，灭点位于无穷远处。
 
 #figure(
   table(
