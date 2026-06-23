@@ -2,7 +2,7 @@
 
 #show: conf.with(
   title: [
-    自然语言处理 - 期末复习笔记
+    自然语言处理
   ],
   authors: (
     (
