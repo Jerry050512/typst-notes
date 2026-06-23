@@ -37,7 +37,7 @@
 
 == 依存句法分析
 
-/ 依存句法分析: 认为句子的核心是词与词之间的依存关系，通常每个词依附于一个中心词。
+/ 依存句法分析: 认为句子的核心是词与词之间的依存关系；除根节点外，每个词通常依附于一个中心词。
 
 常见依存关系：
 #table(
@@ -67,9 +67,9 @@
   [统计方法], [从树库学习规则概率或打分模型], [能选择最优结构，减少主观性；依赖标注语料],
 )
 
-浅层句法分析常识：Base NP 是非递归名词短语，VG 是动词词组，PP 是介词短语，DP/ADVP 是副词短语。浅层分析只识别局部语块，不处理完整远距离依赖。
+浅层句法分析常识：Base NP 是非递归名词短语，VG 是动词词组，PP 是介词短语，DP 是限定词短语，ADVP 是副词短语。浅层分析只识别局部语块，不处理完整远距离依赖。
 
-依存句法补充：依存理论强调 #key[动词中心]，输出通常是有向依存树。常见算法包括 Transition-based（SHIFT、LEFT-ARC、RIGHT-ARC，速度快）、Graph-based（全局最优，较慢）和 Sequence-labeling（把 head 与 relation 当标签预测）。
+依存句法补充：依存理论强调 #key[词与词之间的中心—依存关系]，许多句子以主要谓词为根，输出通常是有向依存树。常见算法包括 Transition-based（SHIFT、LEFT-ARC、RIGHT-ARC，速度快）、Graph-based（可进行全局结构打分）和 Sequence-labeling（把 head 与 relation 当标签预测）。
 
 
 == PCFG
@@ -105,7 +105,7 @@
   对“咬 死 了 猎人 的 狗”这类题：
   1. 先把三元规则范式化为 CNF，例如 `S → VP Aux NP` 拆成 `S → VP X1, X1 → Aux NP`；`NP → NP Aux NP` 拆成 `NP → NP X1, X1 → Aux NP`。
   2. 单词层填入 `v, a, utl, n, Aux, n` 等可推出各词的非终结符。
-  3. 按跨度从 2 到 $n$ 枚举切分点，组合 `VC → v a`、`VC → VC utl`、`NP → NP Aux NP`、`VP → VC NP`、`S → VC NP` 等。
+  3. 按跨度从 2 到 $n$ 枚举切分点，只使用 CNF 二元规则组合，例如 `VC → v a`、`VC → VC utl`、`X1 → Aux NP`、`NP → NP X1`、`VP → VC NP`、`S → VC NP` 等。
   4. 顶层若包含 $S$，说明句子可由文法生成。
   5. 记录回溯指针；本题要注意可能有多棵树。
 ]
