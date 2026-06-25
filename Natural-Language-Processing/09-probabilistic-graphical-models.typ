@@ -153,6 +153,7 @@
 ]
 
 #warnbox[
+  
   *前向 vs 后向*：
   - *前向算法*：从前往后计算，$alpha_t(i)$ 是"到 $t$ 为止"的概率
   - *后向算法*：从后往前计算，$beta_t(i)$ 是"从 $t+1$ 开始"的概率
@@ -180,7 +181,7 @@
 
 #key[Baum-Welch 算法关键变量]（作业重点）：
 
-*γ_t(i)*：给定模型 $lambda$ 和观测序列 $O$，在时刻 $t$ 处于状态 $q_i$ 的概率
+*$γ_t(i)$*：给定模型 $lambda$ 和观测序列 $O$，在时刻 $t$ 处于状态 $q_i$ 的概率
 
 #formula[$ gamma_t(i) = P(i_t=q_i | O, lambda) = (alpha_t(i) beta_t(i)) / P(O|lambda) $]
 
@@ -188,7 +189,7 @@
 - 分母：观测序列总概率，用于归一化
 - 物理意义：在 $t$ 时刻处于状态 $i$ 的"期望"
 
-*ξ_t(i,j)*：给定模型和观测序列，在时刻 $t$ 处于状态 $q_i$ 且时刻 $t+1$ 处于状态 $q_j$ 的概率
+*$ξ_t(i,j)$*：给定模型和观测序列，在时刻 $t$ 处于状态 $q_i$ 且时刻 $t+1$ 处于状态 $q_j$ 的概率
 
 #formula[$ xi_t(i,j) = P(i_t=q_i, i_(t+1)=q_j | O, lambda) = (alpha_t(i) a_(i j) b_j(o_(t+1)) beta_(t+1)(j)) / P(O|lambda) $]
 
@@ -205,8 +206,8 @@
   - 只有观测序列：用 Baum-Welch（EM 算法的 HMM 版本）
     - E步：用当前参数计算 $gamma_t(i)$ 和 $xi_t(i,j)$
     - M步：用期望计数更新参数
-      - $overline(a)_(i j) = (sum_(t=1)^(T-1) xi_t(i,j)) / (sum_(t=1)^(T-1) gamma_t(i))$
-      - $overline(b)_j(k) = (sum_(t=1, o_t=v_k)^T gamma_t(j)) / (sum_(t=1)^T gamma_t(j))$
+      - $ overline(a)_(i j) = (sum_(t=1)^(T-1) xi_t(i,j)) / (sum_(t=1)^(T-1) gamma_t(i)) $
+      - $ overline(b)_j(k) = (sum_(t=1, o_t=v_k)^T gamma_t(j)) / (sum_(t=1)^T gamma_t(j)) $
 ]
 
 #intuition[
@@ -218,13 +219,13 @@
 
 #key[Viterbi 算法关键变量]（作业重点）：
 
-*δ_t(i)*：在时刻 $t$ 状态为 $i$ 的所有路径中概率最大值
+*$δ_t(i)$*：在时刻 $t$ 状态为 $i$ 的所有路径中概率最大值
 
 #formula[$ delta_t(i) = max_(i_1, i_2, dots, i_(t-1)) P(i_t=i, i_(t-1), dots, i_1, o_t, dots, o_1 | lambda) $]
 
 - 表示：到时刻 $t$ 为止，以状态 $q_i$ 结尾的最优路径的概率
 
-*Ψ_t(i)*：在时刻 $t$ 状态为 $i$ 时，前一时刻的最优状态
+*$Ψ_t(i)$*：在时刻 $t$ 状态为 $i$ 时，前一时刻的最优状态
 
 #formula[$ psi_t(i) = arg max_(1 <= j <= N) [delta_(t-1)(j) a_(j i)] $]
 
@@ -255,14 +256,15 @@
 ]
 
 #warnbox[
+
   *Viterbi vs 前向算法的关键区别*：
 
   - *前向算法*：递推用 #key[求和] $sum$
-    - $alpha_(t+1)(j) = [sum_i alpha_t(i) a_(i j)] b_j(o_(t+1))$
+    - $ alpha_(t+1)(j) = [sum_i alpha_t(i) a_(i j)] b_j(o_(t+1)) $
     - 目标：计算观测序列概率（对所有可能路径求和）
 
   - *Viterbi 算法*：递推用 #key[取最大] $max$
-    - $delta_t(i) = max_j [delta_(t-1)(j) a_(j i)] b_i(o_t)$
+    - $ delta_t(i) = max_j [delta_(t-1)(j) a_(j i)] b_i(o_t) $
     - 目标：找最优路径（只保留概率最大的路径）
 
   两者递推形式相似，但一个是求和（概率计算），一个是取最大（路径寻优）。
@@ -278,8 +280,7 @@
   - $psi_1(1) = psi_1(2) = psi_1(3) = 0$
 
   *步骤2：递推* ($t=2$，观测”白”)
-  - $delta_2(1) = max{0.12 times 0.5, 0.24 times 0.2, 0.10 times 0.3} times 0.7$
-    $ = max{0.06, 0.048, 0.03} times 0.7 = 0.06 times 0.7 = 0.042 $
+  - $ delta_2(1) &= max{0.12 times 0.5, 0.24 times 0.2, 0.10 times 0.3} times 0.7 \ &= max{0.06, 0.048, 0.03} times 0.7 = 0.06 times 0.7 = 0.042 $
   - $psi_2(1) = arg max = 1$ （最大值来自状态1）
 
   类似计算 $delta_2(2), delta_2(3)$ 和对应的 $psi$...
@@ -408,7 +409,7 @@
   - $y=(2,2,2)$：$0.5 times 0.3 times 0.4 times 1 = 0.06$
 
   *归一化因子*：
-  $ Z(x) = sum "所有路径概率" = 0.075 + 0.06 + 0.21 + 0.14 + 0.175 + 0.14 + 0.09 + 0.06 = 0.95 $
+  $ Z(x) &= sum "所有路径概率" \ &= 0.075 + 0.06 + 0.21 + 0.14 + 0.175 + 0.14 + 0.09 + 0.06 \ &= 0.95 $
 
   或通过矩阵乘法：
   $ M_1 M_2 M_3 M_4 = dots "计算后第(1,1)元素" = 0.95 $
