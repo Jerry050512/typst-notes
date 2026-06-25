@@ -4,6 +4,40 @@
 
 #knowtitle[语料库章节偏概念简答，重点是语料库定义、类型、建设流程、标注一致性和典型语言知识库。]
 
+== 语料库技术的发展
+
+#key[三个发展阶段]：
+
+*第一阶段：20世纪50年代中期之前（早期发展）*
+- 语料库在语言研究中被广泛使用
+- 应用领域：语言习得、方言学、句法语义、音系研究、语言教学
+- 特点：为后续发展奠定基础
+
+*第二阶段：1957～20世纪80年代初期（沉寂时期）*
+- 转折点：1957年 Chomsky《句法理论》发表
+- Chomsky批判观点：
+  - 基于语料库的研究方法有误
+  - 语料的不充分性
+- 影响：语料库语言学进入长达二十多年的沉寂期
+- 转换生成语法成为主流
+
+*第三阶段：20世纪80年代以后（复苏与发展）*
+
+特征一：第二代语料库相继建成
+- LOB语料库（1983，Lancaster大学，英国英语）
+- TLF语料库（法国，2000书面法语文本，1.5亿词）
+- Helsinki Corpus（芬兰，历史英语，850-1720年）
+- ICE语料库（1988，伦敦大学，所有英语国家）
+
+特征二：研究项目显著增长
+- 1959-1980（20年）：约140个项目
+- 1981-1991（11年）：约480个项目
+- 增长3.4倍
+
+*复苏原因*：
+1. 技术推动：计算机发展提供技术基础（存储、检索、分析能力）
+2. 理论反思：转换生成语言学对语料库的批判不都正确
+
 == 基本概念
 
 / 语料库 (Corpus): 按一定原则采集、整理并可供检索和统计分析的语言材料集合，可根据用途进一步进行词性、句法或语义标注。
@@ -179,7 +213,30 @@
 *一、义原（Sememe）*
 - 最小的、不可再分的语义单位
 - 类似"语义原子"
+- HowNet构建了约2000个基本义原
 - 例如："医生"可以分解为{人, 职业, 医疗}等义原
+
+#key[义原分类]：
+- 实体（Thing）：human|人、animal|动物、tree|树、tool|用具
+- 属性（Attribute）：color|颜色、shape|形状、size|大小
+- 属性值（Value）：red|红、round|圆、big|大
+- 事件（Event）：eat|吃、run|跑、write|写
+- 部分（Part）：head|头、tail|尾巴、wing|翅膀
+
+#key[语义角色]：
+- agent：动作发出者（施事）
+- patient：动作承受者（受事）
+- modifier：修饰、属性
+- host：属性宿主、所属主体
+- tool：工具
+- time：时间
+- space：空间
+- product：产物、结果
+
+#key[HowNet表示格式]：
+- 核心结构：主概念义原:语义角色={修饰/从属义原}
+- 整体用 {} 包裹，多层嵌套表示复杂语义
+- 每个义原用 英文|中文 标明
 
 *二、层次化描述*
 - 上下位关系：构建概念层次体系
@@ -266,6 +323,46 @@
 - PropBank：在树库基础上标注谓词-论元/语义角色
 - NomBank：标注名词谓词及其论元
 - 用途：语义角色标注（SRL）任务
+
+#key[PropBank 语义角色标注体系]：
+
+*核心论元（Arg0-Arg6）*：
+- Arg0：施事者（Agent），有意志的动作发起者
+- Arg1：受事者（Patient/Theme），动作直接影响的对象
+- Arg2：工具（Instrument）、受益者（Benefactive）或属性
+- Arg3：起点（Starting Point）
+- Arg4：终点（Ending Point）
+- Arg5-Arg6：特殊论元（少数谓词使用）
+
+*附加论元（ArgM-XX）*：
+- ArgM-MNR：方式（Manner），如"认真地"
+- ArgM-LOC：地点（Locative），如"在图书馆"
+- ArgM-TMP：时间（Temporal），如"昨天"
+- ArgM-CAU：原因（Cause），如"因为下雨"
+- ArgM-PRP：目的（Purpose），如"为了学习"
+- ArgM-NEG：否定（Negation），如"不""没有"
+- ArgM-MOD：情态（Modality），如"可能""会"
+
+#example(title: [PropBank标注示例])[
+  *例句*：He accepted the gift from his friend privately.
+
+  *标注*：
+  - Rel: accepted.01（谓词）
+  - Arg0: He（施事者，接受者）
+  - Arg1: the gift（受事者，被接受的事物）
+  - Arg2: from his friend（来源）
+  - ArgM-MNR: privately（方式）
+]
+
+*PDTB（Penn Discourse Treebank）*
+- 标注篇章关系（因果、对比、顺承等）
+- 用途：篇章分析和连贯性研究
+
+#key[篇章关系类型]：
+- Temporal：时间关系
+- Contingency：条件/因果关系
+- Expansion：扩展关系
+- Comparison：比较/对比关系
 
 *PDTB（Penn Discourse Treebank）*
 - 标注篇章关系（因果、对比、顺承等）
