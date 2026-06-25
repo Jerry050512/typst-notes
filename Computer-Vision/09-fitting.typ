@@ -162,6 +162,32 @@
   7. 使用拟合误差作为准则，确定最好的拟合模型
 ]
 
+=== 算法伪代码
+
+#methodblock[
+  ```
+  输入：数据点集 S、采样点数 n、迭代次数 k、内点阈值 t、合理模型所需内点数 d
+  输出：最佳拟合模型
+
+  best_model ← 无；best_error ← ∞
+  重复 k 次：
+      S_sample ← 从 S 中随机采样 n 个点
+      model ← 用 S_sample 拟合直线
+      inliers ← 空集
+      对 S 中除采样点外的每个点 p：
+          若 dist(p, model) < t：
+              将 p 加入 inliers
+      若 |inliers| ≥ d：
+          refined_model ← 用 inliers 重新拟合
+          error ← 拟合误差
+          若 error < best_error：
+              best_model ← refined_model
+              best_error ← error
+  结束
+  返回 best_model
+  ```
+]
+
 === 参数选择
 
 *初始点数 $s$*
