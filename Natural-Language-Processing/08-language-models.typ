@@ -135,29 +135,98 @@
   加一平滑简单但粗糙：它给所有未出现事件分配相同概率，往往把过多概率质量分给低频/未见事件，并压低高频事件概率。实践中效果一般，更好的方法有 Good-Turing、Kneser-Ney 等。
 ]
 
-=== 其他平滑方法速记
+=== 其他平滑方法\*
 
-*Good-Turing 估计*：
+/ 减值平滑法 (Discounting): 从已出现的 N-gram 中"扣除"一部分概率质量，重新分配给未出现的 N-gram，避免零概率问题。
 
-#formula[$ r^* = (r + 1) N_(r+1) / N_r $]
-
-其中 $N_r$ 表示恰好出现 $r$ 次的 N-gram 个数。核心思想：用出现 $r+1$ 次的 N-gram 数量来调整出现 $r$ 次的 N-gram 的概率。
-
-*回退（Back-off）与插值（Interpolation）*：
+#key[核心思想]：所有平滑方法的共同点是"劫富济贫"——降低高频事件的概率估计，把省下的概率质量分给低频或未见事件。
 
 #table(
   columns: (auto, 1fr, 1fr),
   stroke: (paint: rgb("#ccc"), thickness: 0.5pt),
   inset: 6pt,
   fill: (col, row) => if row == 0 { sectionbg } else { white },
-  table.header([*方法*], [*核心思想*], [*特点*]),
-  [回退 Back-off], [高阶 N-gram 缺失时退到低阶模型], [利用多阶信息],
-  [插值 Interpolation], [把不同阶 N-gram 加权求和], [不会完全依赖某一阶],
-  [Kneser-Ney], [低阶概率看"作为新续接词的能力"], [经典强基线，效果最好],
+  table.header([*平滑方法*], [*核心思想*], [*未见 N-gram 如何分配概率*]),
+  [加一平滑 Laplace], [所有计数+1，简单粗暴], [均分（所有未见事件概率相同）],
+  [Good-Turing], [用 $N_(r+1)$ 估计 $N_r$ 的调整计数], [均分剩余概率质量],
+  [Katz 回退], [高阶缺失时回退到低阶模型], [按低阶模型分布分配],
+  [Kneser-Ney], [考虑词作为"续接词"的能力], [按改进的低阶分布分配],
 )
 
+==== Good-Turing 估计\*
+
+#formula[$ r^* = (r + 1) N_(r+1) / N_r $]
+
+其中：
+- $r$：某 N-gram 的原始出现次数
+- $r^*$：调整后的出现次数
+- $N_r$：恰好出现 $r$ 次的 N-gram 个数
+- $N_(r+1)$：恰好出现 $r+1$ 次的 N-gram 个数
+
+#key[直觉理解]：
+- 如果有 100 个 N-gram 出现 1 次，20 个 N-gram 出现 2 次
+- 那么出现 1 次的 N-gram，调整后计数为 $1^* = 2 times 20/100 = 0.4$
+- 省下的概率质量 $(1-0.4) times 100 = 60$ 分配给未见的 N-gram
+
+#warnbox[
+  Good-Turing 的核心：用"比我多出现一次的事件有多少个"来调整我的概率。如果出现 $r+1$ 次的事件很少，说明从 $r$ 次跃升到 $r+1$ 次很难，那么 $r$ 次的事件概率应该降低。
+]
+
+==== Katz 回退（Back-off）\*
+
+#key[核心思想]：
+- 对于已出现的 N-gram，用打折后的 MLE 概率
+- 对于未出现的 N-gram，回退（back off）到低阶模型，按低阶分布分配概率
+
+#formula[$ P_"Katz"(w_i | w_(i-n+1)^(i-1)) = cases(
+  d_(w_(i-n+1)^i) dot P_"MLE"(w_i | w_(i-n+1)^(i-1)) & "如果" C(w_(i-n+1)^i) > 0,
+  alpha(w_(i-n+1)^(i-1)) dot P_"Katz"(w_i | w_(i-n+2)^(i-1)) & "否则"
+) $]
+
+其中：
+- $d$：打折系数（discount factor），通常由 Good-Turing 估计得到
+- $alpha$：后推常数（backoff weight），确保概率归一化
+
+#methodblock[
+  *Katz 平滑步骤*：
+
+  1. *打折*：对已出现的 N-gram，用 Good-Turing 估计打折
+  2. *后推*：对未出现的 N-gram，退到 $(n-1)$-gram 模型
+  3. *归一化*：调整后推常数 $alpha$，确保所有概率和为 1
+]
+
+#warnbox[
+  *Katz vs Good-Turing 的关键区别*（课后习题重点）：
+
+  - *Good-Turing*：
+    - 给未出现的 N-gram #key[均分]剩余概率质量
+    - 所有未见事件概率相同
+    - 不依赖低阶模型
+
+  - *Katz 回退*：
+    - 给未出现的 N-gram #key[按低阶语言模型分布]分配概率
+    - 不同未见事件概率不同（由低阶模型决定）
+    - 需要依赖低阶模型
+
+  *例如*：未见过 "喜欢 吃 苹果"（Trigram）
+  - Good-Turing：与其他未见 Trigram 概率相同
+  - Katz：退到 Bigram $P("苹果"|"吃")$，如果这个概率高，则 Trigram 概率也相对高
+]
+
+==== 插值平滑（Interpolation）
+
+#key[核心思想]：不是在高阶缺失时才用低阶，而是#key[始终]把各阶模型加权混合。
+
+#formula[$ P_"interpolation"(w_i | w_(i-2), w_(i-1)) = lambda_1 P(w_i) + lambda_2 P(w_i | w_(i-1)) + lambda_3 P(w_i | w_(i-2), w_(i-1)) $]
+
+其中 $lambda_1 + lambda_2 + lambda_3 = 1$。
+
+#key[Interpolation vs Back-off]：
+- *Back-off*：高阶可用就用高阶，缺失才退低阶（条件选择）
+- *Interpolation*：所有阶都用，按权重混合（加权平均）
+
 #intuition[
-  回退：高阶不行就往低阶退，如 Trigram → Bigram → Unigram。插值：把各阶模型按权重混合，如 $lambda_1 P_1 + lambda_2 P_2 + lambda_3 P_3$，其中 $lambda_1 + lambda_2 + lambda_3 = 1$。
+  插值更稳健：即使 Trigram 出现过，也会参考 Bigram 和 Unigram，避免过拟合稀疏数据。
 ]
 
 == 神经网络语言模型\*
@@ -290,13 +359,27 @@
   [BERT], [双向 Transformer Encoder，MLM（掩码语言模型）+ NSP], [双向，适合理解任务（分类、NER、问答）],
 )
 
-== 本章高频题
+== 本章高频题\*
 
 #exercise(title: [语言模型])[
-  1. 写出语言模型的链式法则分解。
-  2. 给定语料，计算 unigram/bigram/trigram 的 MLE 概率。
-  3. 用加一平滑计算 bigram 概率，注意分母要加词表大小 $V$。
-  4. 计算困惑度 PP：先算条件概率，取对数，求平均，最后 $2^H$。
-  5. 比较 N-gram 语言模型和神经网络语言模型的优缺点。
-  6. 解释困惑度的含义，并说明为什么困惑度越小越好。
+  *必考计算题*：
+  1. #key[链式法则分解]：写出句子概率的完整分解形式
+  2. #key[Bigram MLE 概率计算]：给定语料，计算 $P(w_i | w_(i-1))$
+  3. #key[加一平滑计算]：用 Laplace 平滑计算未见/已见 Bigram 概率（注意分母加 $V$）
+  4. #key[句子概率计算]：用链式法则和 Bigram 概率计算完整句子概率
+  5. #key[困惑度计算]：先算条件概率，取对数，求平均，最后 $2^H$
+
+  *重要概念题*：
+  6. 比较 Good-Turing 和 Katz 回退的区别（如何分配未见 N-gram 概率）
+  7. 简述几种减值平滑法的原理和区别（加一、Good-Turing、Katz、插值）
+  8. 解释困惑度的含义，为什么困惑度越小越好
+  9. 比较 N-gram 和神经网络语言模型的优缺点
+  10. 回退与插值的区别
+]
+
+#warnbox[
+  *作业题型重点*：
+  - 选择题：平滑方法的区别（Katz vs Good-Turing）、Bigram 概率归一化
+  - 计算题：给定小语料，计算句子的 MLE 概率和加一平滑概率
+  - 简答题：减值平滑法的原理和区别
 ]
