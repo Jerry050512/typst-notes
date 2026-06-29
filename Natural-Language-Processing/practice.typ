@@ -2594,41 +2594,41 @@
 #example(title: [HMM 后向算法计算])[
   *题目*：沿用本章三个盒子的隐马尔可夫模型 λ=(A,B,π)，其中
 
-  $ A = mat(0.5, 0.2, 0.3; 0.3, 0.5, 0.2; 0.2, 0.3, 0.5, delim: "["), quad
-    b("红") = vec(0.5, 0.4, 0.7, delim: "["), quad b("白") = vec(0.5, 0.6, 0.3, delim: "["), quad
+  $ A = mat(0.5, 0.2, 0.3; 0.3, 0.5, 0.2; 0.2, 0.3, 0.5), quad
+    b("红") = vec(0.5, 0.4, 0.7), quad b("白") = vec(0.5, 0.6, 0.3), quad
     pi = (0.2, 0.4, 0.4)^T $
 
   设 T=4，$O=($"红", "白", "红", "白"$)$，试用后向算法（矩阵形式）计算 $P(O|lambda)$。
 
   *解答*：
 
-  后向递推用矩阵形式：$beta_T = vec(1,1,1, delim: "[")$，$beta_t = A "diag"[b(o_(t+1))] beta_(t+1)$，终止 $P(O|lambda) = pi^T "diag"[b(o_1)] beta_1$。记 $beta_t = (beta_t(1), beta_t(2), beta_t(3))^T$。
+  后向递推用矩阵形式：$beta_T = vec(1,1,1)$，$beta_t = A "diag"[b(o_(t+1))] beta_(t+1)$，终止 $P(O|lambda) = pi^T "diag"[b(o_1)] beta_1$。记 $beta_t = (beta_t(1), beta_t(2), beta_t(3))^T$。
 
   *步骤1：初始化* ($t=4$)
 
-  $ beta_4 = vec(1, 1, 1, delim: "[") $
+  $ beta_4 = vec(1, 1, 1) $
 
   *步骤2：递推到 $t=3$*（下一观测 $o_4=$"白"）
 
-  $ "diag"[b("白")] beta_4 = vec(0.5, 0.6, 0.3, delim: "[") $
-  $ beta_3 = A vec(0.5, 0.6, 0.3, delim: "[") = mat(0.5, 0.2, 0.3; 0.3, 0.5, 0.2; 0.2, 0.3, 0.5, delim: "[") vec(0.5, 0.6, 0.3, delim: "[") = vec(0.46, 0.51, 0.43, delim: "[") $
+  $ "diag"[b("白")] beta_4 = vec(0.5, 0.6, 0.3) $
+  $ beta_3 = A vec(0.5, 0.6, 0.3) = mat(0.5, 0.2, 0.3; 0.3, 0.5, 0.2; 0.2, 0.3, 0.5) vec(0.5, 0.6, 0.3) = vec(0.46, 0.51, 0.43) $
 
   即 $beta_3(1)=0.5 times 0.5 + 0.2 times 0.6 + 0.3 times 0.3 = 0.46$，$beta_3(2)=0.51$，$beta_3(3)=0.43$。
 
   *步骤3：递推到 $t=2$*（下一观测 $o_3=$"红"）
 
-  $ "diag"[b("红")] beta_3 = vec(0.23, 0.204, 0.301, delim: "[") $
-  $ beta_2 = A vec(0.23, 0.204, 0.301, delim: "[") = vec(0.2461, 0.2312, 0.2577, delim: "[") $
+  $ "diag"[b("红")] beta_3 = vec(0.23, 0.204, 0.301) $
+  $ beta_2 = A vec(0.23, 0.204, 0.301) = vec(0.2461, 0.2312, 0.2577) $
 
   *步骤4：递推到 $t=1$*（下一观测 $o_2=$"白"）
 
-  $ "diag"[b("白")] beta_2 = vec(0.12305, 0.13872, 0.07731, delim: "[") $
-  $ beta_1 = A vec(0.12305, 0.13872, 0.07731, delim: "[") = vec(0.112462, 0.121737, 0.104881, delim: "[") $
+  $ "diag"[b("白")] beta_2 = vec(0.12305, 0.13872, 0.07731) $
+  $ beta_1 = A vec(0.12305, 0.13872, 0.07731) = vec(0.112462, 0.121737, 0.104881) $
 
   *步骤5：终止*
 
-  $ "diag"[b("红")] beta_1 = (0.5 times 0.112462, 0.4 times 0.121737, 0.7 times 0.104881) = vec(0.056231, 0.048695, 0.073417, delim: "[") $
-  $ P(O|lambda) &= pi^T vec(0.056231, 0.048695, 0.073417, delim: "[") \
+  $ "diag"[b("红")] beta_1 = (0.5 times 0.112462, 0.4 times 0.121737, 0.7 times 0.104881) = vec(0.056231, 0.048695, 0.073417) $
+  $ P(O|lambda) &= pi^T vec(0.056231, 0.048695, 0.073417) \
                &= 0.2 times 0.056231 + 0.4 times 0.048695 + 0.4 times 0.073417 \
                &= 0.0600908 $
 
@@ -2644,8 +2644,8 @@
 
   *步骤1：初始化* ($t=1$，观测"白")
 
-  $ delta_1 = "diag"(pi) b("白") = vec(0.5 times 0.2, 0.6 times 0.4, 0.3 times 0.4, delim: "[") = vec(0.10, 0.24, 0.12, delim: "[") $
-  $ psi_1 = vec(0, 0, 0, delim: "[") $
+  $ delta_1 = "diag"(pi) b("白") = vec(0.5 times 0.2, 0.6 times 0.4, 0.3 times 0.4) = vec(0.10, 0.24, 0.12) $
+  $ psi_1 = vec(0, 0, 0) $
 
   *步骤2：递推到 $t=2$* (观测"红")
 
@@ -2653,11 +2653,11 @@
     A^T "diag"(delta_1) = mat(
       0.050, #viterbi-max[0.072], 0.024;
       0.020, #viterbi-max[0.120], 0.036;
-      0.030, 0.048, #viterbi-max[0.060], delim: "["
+      0.030, 0.048, #viterbi-max[0.060]
     )
   $
-  $ "rowmax"[A^T "diag"(delta_1)] = vec(#viterbi-max[0.072], #viterbi-max[0.120], #viterbi-max[0.060], delim: "["), quad psi_2 = vec(2, 2, 3, delim: "[") $
-  $ delta_2 = "diag"[b("红")] vec(0.072, 0.120, 0.060, delim: "[") = (0.5, 0.4, 0.7) dot.op vec(0.072, 0.120, 0.060, delim: "[") = vec(0.036, 0.048, 0.042, delim: "[") $
+  $ "rowmax"[A^T "diag"(delta_1)] = vec(#viterbi-max[0.072], #viterbi-max[0.120], #viterbi-max[0.060]), quad psi_2 = vec(2, 2, 3) $
+  $ delta_2 = "diag"[b("红")] vec(0.072, 0.120, 0.060) = (0.5, 0.4, 0.7) dot.op vec(0.072, 0.120, 0.060) = vec(0.036, 0.048, 0.042) $
 
   *步骤3：递推到 $t=3$* (观测"白")
 
@@ -2665,11 +2665,11 @@
     A^T "diag"(delta_2) = mat(
       #viterbi-max[0.018], 0.0144, 0.0084;
       0.0072, #viterbi-max[0.024], 0.0126;
-      0.0108, 0.0096, #viterbi-max[0.021], delim: "["
+      0.0108, 0.0096, #viterbi-max[0.021]
     )
   $
-  $ "rowmax"[A^T "diag"(delta_2)] = vec(#viterbi-max[0.018], #viterbi-max[0.024], #viterbi-max[0.021], delim: "["), quad psi_3 = vec(1, 2, 3, delim: "[") $
-  $ delta_3 = "diag"[b("白")] vec(0.018, 0.024, 0.021, delim: "[") = (0.5, 0.6, 0.3) dot.op vec(0.018, 0.024, 0.021, delim: "[") = vec(0.009, 0.0144, 0.0063, delim: "[") $
+  $ "rowmax"[A^T "diag"(delta_2)] = vec(#viterbi-max[0.018], #viterbi-max[0.024], #viterbi-max[0.021]), quad psi_3 = vec(1, 2, 3) $
+  $ delta_3 = "diag"[b("白")] vec(0.018, 0.024, 0.021) = (0.5, 0.6, 0.3) dot.op vec(0.018, 0.024, 0.021) = vec(0.009, 0.0144, 0.0063) $
 
   *步骤4：递推到 $t=4$* (观测"红")
 
@@ -2677,11 +2677,11 @@
     A^T "diag"(delta_3) = mat(
       #viterbi-max[0.0045], 0.00432, 0.00126;
       0.0018, #viterbi-max[0.0072], 0.00189;
-      0.0027, 0.00288, #viterbi-max[0.00315], delim: "["
+      0.0027, 0.00288, #viterbi-max[0.00315]
     )
   $
-  $ "rowmax"[A^T "diag"(delta_3)] = vec(#viterbi-max[0.0045], #viterbi-max[0.0072], #viterbi-max[0.00315], delim: "["), quad psi_4 = vec(1, 2, 3, delim: "[") $
-  $ delta_4 = "diag"[b("红")] vec(0.0045, 0.0072, 0.00315, delim: "[") = (0.5, 0.4, 0.7) dot.op vec(0.0045, 0.0072, 0.00315, delim: "[") = vec(0.00225, 0.00288, 0.002205, delim: "[") $
+  $ "rowmax"[A^T "diag"(delta_3)] = vec(#viterbi-max[0.0045], #viterbi-max[0.0072], #viterbi-max[0.00315]), quad psi_4 = vec(1, 2, 3) $
+  $ delta_4 = "diag"[b("红")] vec(0.0045, 0.0072, 0.00315) = (0.5, 0.4, 0.7) dot.op vec(0.0045, 0.0072, 0.00315) = vec(0.00225, 0.00288, 0.002205) $
 
   *步骤5：终止与回溯*
 
